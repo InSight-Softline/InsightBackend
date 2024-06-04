@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS Audits (
+	id INT PRIMARY KEY,
+	Name VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS Ratings (
+id INT PRIMARY KEY,
+    Points INT,
+    comment VARCHAR(255),
+    Name VARCHAR(255),
+    SELECT CASE WHEN Na IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS Result;
+    AuditsId INT,
+    QuestionsId INT,
+    FOREIGN KEY (AuditsId) REFERENCES Audits(id),
+    FOREIGN KEY (QuestionsId) REFERENCES Questions(id)
+);
+CREATE TABLE IF NOT EXISTS Questions (
+	id INT PRIMARY KEY,
+	Name VARCHAR(255)
+);
+CREATE TABLE IF NOT EXISTS Categories (
+	id INT PRIMARY KEY,
+	Name VARCHAR(255)
+);
