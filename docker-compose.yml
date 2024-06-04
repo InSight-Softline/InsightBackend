@@ -1,4 +1,3 @@
-
 services:
   mssql:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -7,3 +6,9 @@ services:
       - ACCEPT_EULA="Y"
     ports:
       - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    restart: unless-stopped
+
+volumes:
+  mssql_data:

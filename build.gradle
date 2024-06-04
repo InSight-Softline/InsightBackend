@@ -20,6 +20,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:9.4.0.jre8'
 }
 
 tasks.named('test') {
