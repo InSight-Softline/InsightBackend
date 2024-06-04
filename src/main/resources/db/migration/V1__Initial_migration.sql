@@ -1,24 +1,45 @@
-CREATE TABLE IF NOT EXISTS Audits (
-	id INT PRIMARY KEY,
-	Name VARCHAR(255)
-);
+-- Creates the table 'audits' if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[audits]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE audits (
+        id INT PRIMARY KEY,
+        name VARCHAR(100)
+    );
+END;
+GO
 
-CREATE TABLE IF NOT EXISTS Ratings (
-id INT PRIMARY KEY,
-    Points INT,
-    comment VARCHAR(255),
-    Name VARCHAR(255),
-    SELECT CASE WHEN Na IS NULL THEN CAST(0 AS BIT) ELSE CAST(1 AS BIT) END AS Result;
-    AuditsId INT,
-    QuestionsId INT,
-    FOREIGN KEY (AuditsId) REFERENCES Audits(id),
-    FOREIGN KEY (QuestionsId) REFERENCES Questions(id)
-);
-CREATE TABLE IF NOT EXISTS Questions (
-	id INT PRIMARY KEY,
-	Name VARCHAR(255)
-);
-CREATE TABLE IF NOT EXISTS Categories (
-	id INT PRIMARY KEY,
-	Name VARCHAR(255)
-);
+-- Creates the table 'questions' if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[questions]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE questions (
+        id INT PRIMARY KEY,
+        name VARCHAR(100)
+    );
+END;
+GO
+
+-- Creates the table 'categories' if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[categories]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE categories (
+        id INT PRIMARY KEY,
+        name VARCHAR(100)
+    );
+END;
+GO
+
+-- Creates the table 'ratings' if it does not exist
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ratings]') AND type in (N'U'))
+BEGIN
+    CREATE TABLE ratings (
+        id INT PRIMARY KEY,
+        points INT CHECK (points BETWEEN 0 AND 5),
+        comment VARCHAR(500),
+        na BIT,
+        audit_id INT,
+        question_id INT,
+        FOREIGN KEY (audit_id) REFERENCES audits(id),
+        FOREIGN KEY (question_id) REFERENCES questions(id)
+    );
+END;
+GO
