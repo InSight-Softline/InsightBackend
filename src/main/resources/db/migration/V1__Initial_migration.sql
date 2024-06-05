@@ -33,6 +33,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ra
 BEGIN
     CREATE TABLE ratings (
         id INT PRIMARY KEY,
+        name VARCHAR(100),
         points INT CHECK (points BETWEEN 0 AND 5),
         comment VARCHAR(500),
         na BIT,
