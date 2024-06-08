@@ -3,7 +3,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[au
 BEGIN
     CREATE TABLE audits (
         id INT PRIMARY KEY,
-        name VARCHAR(100)
+        name VARCHAR(100) NOT NULL
     );
 END;
 GO
@@ -13,7 +13,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[qu
 BEGIN
     CREATE TABLE questions (
         id INT PRIMARY KEY,
-        name VARCHAR(100)
+        name VARCHAR(100) NOT NULL
     );
 END;
 GO
@@ -23,7 +23,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ca
 BEGIN
     CREATE TABLE categories (
         id INT PRIMARY KEY,
-        name VARCHAR(100)
+        name VARCHAR(100) NOT NULL
     );
 END;
 GO
@@ -33,14 +33,14 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ra
 BEGIN
     CREATE TABLE ratings (
         id INT PRIMARY KEY,
-        name VARCHAR(100),
-        points INT CHECK (points BETWEEN 0 AND 5),
-        comment VARCHAR(500),
-        na BIT,
-        audit_id INT,
-        question_id INT,
-        FOREIGN KEY (audit_id) REFERENCES audits(id),
-        FOREIGN KEY (question_id) REFERENCES questions(id)
+        name VARCHAR(100) NOT NULL,
+        points INT CHECK (points BETWEEN 0 AND 5) NOT NULL,
+        comment VARCHAR(500) NOT NULL,
+        na BIT NOT NULL,
+        audit_id INT NOT NULL,
+        question_id INT NOT NULL,
+        FOREIGN KEY (audit_id) REFERENCES audits(id) NOT NULL,
+        FOREIGN KEY (question_id) REFERENCES questions(id) NOT NULL
     );
 END;
 GO
