@@ -1,0 +1,57 @@
+= Handling Invalid JSON with Gson in Spring Boot
+:author: Your Name
+:date: 2024-06-08
+
+== Introduction
+
+This document explains how to handle invalid JSON inputs in a Spring Boot application using the Gson library. The focus is on parsing JSON strings and managing exceptions when the JSON format is incorrect.
+
+== Code Example
+
+
+[source,java]
+----
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PatchController {
+
+    private Gson gson = new Gson();
+
+    @PatchMapping("/api/v1/ratings/{id}")
+    public ResponseEntity<String> updateRating(@PathVariable("id") int id, @RequestBody String requestBody) {
+        Rating updatedRating;
+
+        try {
+            updatedRating = gson.fromJson(requestBody, Rating.class);
+        } catch (JsonSyntaxException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid JSON");
+        }
+
+        // Further processing and updating the rating...
+        return ResponseEntity.ok("Rating updated successfully");
+    }
+}
+----
+
+== Explanation
+
+1. **Gson Library**: We use the Gson library for JSON parsing. The `gson.fromJson` method converts a JSON string into a Java object.
+
+2. **Try-Catch Block**:
+   - The `try` block attempts to parse the JSON string (`requestBody`) into an instance of the `Rating` class.
+   - If the JSON string is malformed, Gson throws a `JsonSyntaxException`.
+
+3. **Handling Exceptions**:
+   - The `catch` block catches the `JsonSyntaxException`.
+   - It returns a `ResponseEntity` with a `400 Bad Request` status and a message "Invalid JSON".
+
+
+
