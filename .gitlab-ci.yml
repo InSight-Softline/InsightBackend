@@ -93,8 +93,7 @@
 
 
 test-job:
-  image: quay.io/podman/stable
   tags:
     - deployment
   script:
-    - docker ps
+    - podman ps
