@@ -93,7 +93,7 @@
 
 
 test-job:
-  image: docker
+  image: quay.io/podman/stable
   tags:
     - deployment
   script:
