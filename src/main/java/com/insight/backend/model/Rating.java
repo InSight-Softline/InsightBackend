@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * This class encapsulates the rating details such as the score, associated comments, and the related audit and question.
  * It uses JPA annotations for database entity mapping and validation annotations to enforce constraints on rating values.
  * </p>
- * 
+ *
  * @author Robin Kehl, Robert Eikmanns
  * @version 1.0
  * @since 2024
@@ -42,7 +42,7 @@ public class Rating {
     /**
      * Constructs a new {@code Rating} with the specified values.
      * <p>
-     * This constructor initializes a {@code Rating} instance with the provided values for `isNa`, `comment`, `points`, 
+     * This constructor initializes a {@code Rating} instance with the provided values for `isNa`, `comment`, `points`,
      * associated `audit`, and `question`.
      * </p>
      *
@@ -98,6 +98,22 @@ public class Rating {
 
     public Integer getPoints() {
         return points;
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Audit getAudit() {
+        return audit;
+    }
+
+    public void setAudit(Audit audit) {
+        this.audit = audit;
     }
 
     public void setPoints(Integer points) {

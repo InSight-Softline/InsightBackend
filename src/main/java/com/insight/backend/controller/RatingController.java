@@ -1,10 +1,22 @@
 package com.insight.backend.controller;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jsonpatch.JsonPatch;
+import com.github.fge.jsonpatch.JsonPatchException;
+import com.insight.backend.exception.RatingNotFoundException;
 import com.insight.backend.model.Rating;
 import com.insight.backend.model.nestedRatings.RatingList;
+import com.insight.backend.service.rating.FindRatingService;
+import com.insight.backend.service.rating.SaveRatingService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
  * ratings associated with specific audits. It uses the {@code @RestController} annotation to handle HTTP requests
  * and interact with the rating data.
  * </p>
- * 
+ *
  * @author Mahamoud, Robert Eikmanns
  * @version 1.0
  * @since 2024
@@ -24,7 +36,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RatingController {
 
-    private List<Rating> ratings;
+    private final ObjectMapper objectMapper;
+    private final FindRatingService findRatingService;
+    private final SaveRatingService saveRatingService;
 
     /**
      * Initializes the {@code RatingController} with a list of sample ratings.
@@ -32,30 +46,11 @@ public class RatingController {
      * The constructor sets up a list of sample ratings with predefined values for testing purposes.
      * </p>
      */
-    public RatingController() {
-        ratings = new ArrayList<>();
-
-        Rating rating1 = new Rating();
-        rating1.setId((long) 1);
-        // rating1.setName("Mahamoud");
-        rating1.setComment("This is the first comment");
-        rating1.setPoints(5);
-
-        Rating rating2 = new Rating();
-        rating2.setId((long) 2);
-        // rating2.setName("Ahmed");
-        rating2.setComment("This is the second comment");
-        rating2.setPoints(4);
-
-        Rating rating3 = new Rating();
-        rating3.setId((long) 3);
-        // rating3.setName("John");
-        rating3.setComment("This is the third comment");
-        rating3.setPoints(3);
-
-        ratings.add(rating1);
-        ratings.add(rating2);
-        ratings.add(rating3);
+    @Autowired
+    public RatingController(ObjectMapper objectMapper, FindRatingService findRatingService, SaveRatingService saveRatingService) {
+        this.objectMapper = objectMapper;
+        this.findRatingService = findRatingService;
+        this.saveRatingService = saveRatingService;
     }
 
     /**
@@ -65,31 +60,23 @@ public class RatingController {
      * with the specified ID using the data provided in the request body. If the rating is successfully updated, it returns
      * a {@code NO_CONTENT} response; otherwise, it returns a {@code NOT_FOUND} response.
      * </p>
-     * 
-     * @param id the ID of the rating to update
-     * @param updatedRating the updated rating object from the JSON request body
-     * @return a {@link ResponseEntity} indicating the result of the update operation
+     *
+     * @param id    the ID of the rating to update
+     * @param patch the JSON patch containing the changes to apply
+     * @return a {@link ResponseEntity} containing the updated rating in JSON format or an error message if the rating ID does not exist
      */
     @PatchMapping("/api/v1/ratings/{id}")
-    public ResponseEntity<String> updateRating(@PathVariable("id") int id, @RequestBody Rating updatedRating) {
-        for (Rating rating : ratings) {
-            if (rating.getId() == id) {
-                if (updatedRating.getComment() != null) {
-                    rating.setComment(updatedRating.getComment());
-                }
-                if (updatedRating.getPoints() <= 5) {
-                    rating.setPoints(updatedRating.getPoints());
-                }
-                // if (updatedRating.getName() != null) {
-                //     rating.setName(updatedRating.getName());
-                // }
-                if (updatedRating.getNa() != null) {
-                    rating.setNa(updatedRating.getNa());
-                }
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
-            }
+    public ResponseEntity<Rating> updateRating(@PathVariable("id") long id, @RequestBody JsonPatch patch) {
+        try {
+            Rating entity = findRatingService.findRatingById(id).orElseThrow(RatingNotFoundException::new);
+            JsonNode entityJsonNode = objectMapper.convertValue(entity, JsonNode.class);
+            JsonNode patchedEntityJsonNode = patch.apply(entityJsonNode);
+            Rating patchedEntity = objectMapper.treeToValue(patchedEntityJsonNode, Rating.class);
+            Rating updatedEntity = saveRatingService.saveRating(patchedEntity);
+            return ResponseEntity.ok(updatedEntity);
+        } catch (JsonPatchException | JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RatingID not found");
     }
 
     /**
@@ -98,7 +85,7 @@ public class RatingController {
      * This method retrieves ratings associated with the given audit ID. It returns a list of ratings in JSON format or
      * an error message if the audit ID does not exist. The ratings and categories are hardcoded for demonstration purposes.
      * </p>
-     * 
+     *
      * @param auditId the ID of the audit
      * @return a {@link ResponseEntity} containing a list of ratings and associated items, or an error message if
      *         the audit ID does not exist
