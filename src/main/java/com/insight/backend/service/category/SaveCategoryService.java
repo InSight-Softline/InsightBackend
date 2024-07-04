@@ -1,4 +1,4 @@
-package com.insight.backend.service.Category;
+package com.insight.backend.service.category;
 
 import com.insight.backend.repository.CategoryRepository;
 import com.insight.backend.model.Category;
@@ -40,6 +40,6 @@ public class SaveCategoryService {
      * @return the saved {@link Category} entity
      */
     public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+        return categoryRepository.saveAndFlush(category);
     }
 }

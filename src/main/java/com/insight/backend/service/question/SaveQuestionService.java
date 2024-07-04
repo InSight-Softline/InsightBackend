@@ -1,4 +1,4 @@
-package com.insight.backend.service.Question;
+package com.insight.backend.service.question;
 
 import com.insight.backend.repository.QuestionRepository;
 import com.insight.backend.model.Question;
@@ -40,6 +40,7 @@ public class SaveQuestionService {
      * @return the saved {@link Question} entity
      */
     public Question saveQuestion(Question question) {
+        if (question == null) return null;
         return questionRepository.save(question);
     }
 }
