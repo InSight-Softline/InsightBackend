@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
  * 
  * @author Abolfazl
  * @version 1.0
- * @since 2024
+ * @since 04.07.2024
  */
 public class ErrorDTO {
 

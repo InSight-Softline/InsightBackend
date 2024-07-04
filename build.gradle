@@ -1,35 +1,40 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.2.6'
-	id 'io.spring.dependency-management' version '1.1.5'
+    id 'java'
+    id 'org.springframework.boot' version '3.2.6'
+    id 'io.spring.dependency-management' version '1.1.5'
 }
 
 group = 'com.insight'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+    sourceCompatibility = '21'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.0.Final'
+    implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+    implementation 'jakarta.validation:jakarta.validation-api:3.0.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.14.1'
+    implementation 'org.springframework:spring-context-support:6.0.12'
+    implementation 'org.springframework.boot:spring-boot-starter-validation:3.2.6'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
 
-	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre11'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 tasks.withType(JavaCompile) {
@@ -55,7 +60,14 @@ task generateJavadoc(type: Javadoc) {
     options {
         encoding = 'UTF-8'
         charSet = 'UTF-8'
-        links("https://docs.oracle.com/javase/8/docs/api/")
+    }
+
+    doLast {
+        if (file("${buildDir}/docs/javadoc/index.html").exists()) {
+            println "JavaDoc generation successful."
+        } else {
+            println "Warning: JavaDoc generation failed or was skipped."
+        }
     }
 }
 

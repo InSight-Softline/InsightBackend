@@ -12,6 +12,7 @@ import java.util.HashMap;
  * @author Matthias Lauer, Thomas Mugler
  * @version 1.0
  * @since 2024
+ * @deprecated since 1.0
  */
 public class RatingAssigned {
 

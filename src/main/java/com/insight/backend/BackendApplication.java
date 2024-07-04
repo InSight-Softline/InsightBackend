@@ -1,3 +1,4 @@
+
 package com.insight.backend;
 
 import org.springframework.boot.SpringApplication;
@@ -8,13 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <p>
  * This class contains the {@code main} method which is used to launch the Spring Boot application.
  * It is annotated with {@link SpringBootApplication}, encompassing the following:
- * <ul>
- *     <li>{@link org.springframework.context.annotation.Configuration @Configuration} - Indicates that the class has {@code @Bean} definition methods.</li>
- *     <li>{@link org.springframework.boot.autoconfigure.EnableAutoConfiguration @EnableAutoConfiguration} - Enables auto-configuration of the Spring application context.</li>
- *     <li>{@link org.springframework.context.annotation.ComponentScan @ComponentScan} - Enables component scanning to detect and register beans.</li>
- * </ul>
- * </p>
- * <p>
  * Running this application initializes the Spring Boot application context and starts the embedded server,
  * which then listens for incoming HTTP requests.
  * </p>
