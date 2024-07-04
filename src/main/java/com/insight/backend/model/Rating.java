@@ -32,24 +32,24 @@ public class Rating {
     private Integer points;
 
     @ManyToOne
-    @JoinColumn(name="audit_id", nullable=false)
+    @JoinColumn(name = "audit_id", nullable = false)
     private Audit audit;
 
     @ManyToOne
-    @JoinColumn(name="question_id", nullable=false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
     /**
      * Constructs a new {@code Rating} with the specified values.
      * <p>
-     * This constructor initializes a {@code Rating} instance with the provided values for `isNa`, `comment`, `points`, 
+     * This constructor initializes a {@code Rating} instance with the provided values for `isNa`, `comment`, `points`,
      * associated `audit`, and `question`.
      * </p>
      *
-     * @param isNa the flag indicating if the rating is not applicable
-     * @param comment the comment associated with the rating
-     * @param points the points assigned in the rating (must be between 0 and 5)
-     * @param audit the audit to which this rating belongs
+     * @param isNa     the flag indicating if the rating is not applicable
+     * @param comment  the comment associated with the rating
+     * @param points   the points assigned in the rating (must be between 0 and 5)
+     * @param audit    the audit to which this rating belongs
      * @param question the question to which this rating is related
      */
     public Rating(Boolean isNa, String comment, Integer points, Audit audit, Question question) {
@@ -103,4 +103,13 @@ public class Rating {
     public void setPoints(Integer points) {
         this.points = points;
     }
+
+    public Question getQuestion() { return question; }
+
+    public void setQuestion(Question question) { this.question = question; }
+
+    public Audit getAudit() { return audit; }
+
+    public void setAudit(Audit audit) { this.audit = audit; }
+
 }
