@@ -3,42 +3,65 @@ package com.insight.backend.dto;
 import jakarta.validation.constraints.*;
 
 /**
- * Data Transfer Object to represent error responses
+ * Data Transfer Object (DTO) for representing error responses.
+ * <p>
+ * This class encapsulates error messages used in responses to indicate
+ * issues or problems encountered during processing. It includes validation
+ * constraints to ensure the error message is not blank and within a specified
+ * length.
+ * </p>
+ * 
+ * @author Abolfazl
+ * @version 1.0
+ * @since 2024
  */
 public class ErrorDTO {
 
     /**
      * Error message.
-     * Must not be blank.
+     * <p>
+     * This field must not be blank and should be up to 255 characters long. 
+     * It provides a description of the error encountered.
+     * </p>
+     * 
+     * @see jakarta.validation.constraints.NotBlank
+     * @see jakarta.validation.constraints.Size
      */
     @NotBlank(message = "Error message cannot be blank")
-    @Size(max = 255, message = "Name should be up to 255 characters")
+    @Size(max = 255, message = "Error message should be up to 255 characters")
     private String error;
 
     /**
-     * No-arg constructor (required for frameworks)
+     * No-argument constructor.
+     * <p>
+     * Required for frameworks that use reflection or deserialization to create 
+     * instances of this class. Initializes the object without setting any fields.
+     * </p>
      */
     public ErrorDTO() {}
 
     /**
-     * Constructor to initialize error message
-     * @param error error message
+     * Constructs an {@code ErrorDTO} with the specified error message.
+     * 
+     * @param error the error message to set
      */
     public ErrorDTO(String error) {
         this.error = error;
     }
 
     /**
-     * Getter for error message
-     * @return error message
+     * Returns the error message.
+     * 
+     * @return the error message
      */
     public String getError() {
         return error;
     }
 
     /**
-     * Setter for error message
-     * @param error error message
+     * Sets the error message.
+     * 
+     * @param error the error message to set
      */
     public void setError(String error) {
         this.error = error;

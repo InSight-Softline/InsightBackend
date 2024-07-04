@@ -2,7 +2,6 @@ package com.insight.backend.controller;
 
 import java.util.*;
 
-//import com.insight.backend.model.Category;
 import com.insight.backend.model.Rating;
 import com.insight.backend.model.nestedRatings.RatingList;
 
@@ -10,32 +9,47 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Controller for handling rating-related requests.
+ * <p>
+ * This class provides RESTful endpoints for managing ratings, including updating existing ratings and retrieving
+ * ratings associated with specific audits. It uses the {@code @RestController} annotation to handle HTTP requests
+ * and interact with the rating data.
+ * </p>
+ * 
+ * @author Mahamoud, Robert Eikmanns
+ * @version 1.0
+ * @since 2024
+ */
 @RestController
 public class RatingController {
 
     private List<Rating> ratings;
 
     /**
-     * Initializes the RatingController with a list of sample ratings.
+     * Initializes the {@code RatingController} with a list of sample ratings.
+     * <p>
+     * The constructor sets up a list of sample ratings with predefined values for testing purposes.
+     * </p>
      */
     public RatingController() {
         ratings = new ArrayList<>();
 
         Rating rating1 = new Rating();
-        rating1.setId((long)1);
-        //rating1.setName("Mahamoud");
+        rating1.setId((long) 1);
+        // rating1.setName("Mahamoud");
         rating1.setComment("This is the first comment");
         rating1.setPoints(5);
 
         Rating rating2 = new Rating();
-        rating2.setId((long)2);
-        //rating2.setName("Ahmed");
+        rating2.setId((long) 2);
+        // rating2.setName("Ahmed");
         rating2.setComment("This is the second comment");
         rating2.setPoints(4);
 
         Rating rating3 = new Rating();
-        rating3.setId((long)3);
-        //rating3.setName("John");
+        rating3.setId((long) 3);
+        // rating3.setName("John");
         rating3.setComment("This is the third comment");
         rating3.setPoints(3);
 
@@ -45,11 +59,16 @@ public class RatingController {
     }
 
     /**
-     * Updates an existing rating based on the provided id and JSON request body.
-     *
-     * @param id            the id of the rating to update
+     * Updates an existing rating based on the provided ID and JSON request body.
+     * <p>
+     * This method handles {@code PATCH} requests to the endpoint {@code /api/v1/ratings/{id}}. It updates the rating
+     * with the specified ID using the data provided in the request body. If the rating is successfully updated, it returns
+     * a {@code NO_CONTENT} response; otherwise, it returns a {@code NOT_FOUND} response.
+     * </p>
+     * 
+     * @param id the ID of the rating to update
      * @param updatedRating the updated rating object from the JSON request body
-     * @return a ResponseEntity indicating the result of the update operation
+     * @return a {@link ResponseEntity} indicating the result of the update operation
      */
     @PatchMapping("/api/v1/ratings/{id}")
     public ResponseEntity<String> updateRating(@PathVariable("id") int id, @RequestBody Rating updatedRating) {
@@ -68,36 +87,30 @@ public class RatingController {
                     rating.setNa(updatedRating.getNa());
                 }
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("");
-                
             }
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("RatingID not found");
     }
 
-
-/**
- * Controller for handling rating-related requests.
- */
-
     /**
-     * Handles GET requests for retrieving ratings for a specific audit.
-     *
+     * Handles {@code GET} requests for retrieving ratings for a specific audit.
+     * <p>
+     * This method retrieves ratings associated with the given audit ID. It returns a list of ratings in JSON format or
+     * an error message if the audit ID does not exist. The ratings and categories are hardcoded for demonstration purposes.
+     * </p>
+     * 
      * @param auditId the ID of the audit
-     * @return a ResponseEntity containing the ratings in JSON format or an error message if the audit ID does not exist
+     * @return a {@link ResponseEntity} containing a list of ratings and associated items, or an error message if
+     *         the audit ID does not exist
      */
     @GetMapping("/api/v1/audits/{auditId}/ratings")
     public ResponseEntity<List<Map<String, Object>>> get(@PathVariable("auditId") Integer auditId) {
 
-        // Generate Test-Categories
-        /*Category category1 = new Category("categorytest1", null);
-        Category category2 = new Category("categorytest2", null);
-        Category category3 = new Category("categorytest3", null);*/
-
         // Generate Test-Ratings
-        Rating rating1 = new Rating("Bob", false, "KOmmentar", 0, null, null);
-        Rating rating2 = new Rating("Ben", false, "Kommentar2", null, null, null);
-        Rating rating3 = new Rating("Boris", false, "Kommentar3", 1, null, null);
-        Rating rating4 = new Rating("Berthold", false, "Kommentar4", 4, null, null);
+        Rating rating1 = new Rating(false, "Kommentar1", 0, null, null);
+        Rating rating2 = new Rating(true, "Kommentar2", null, null, null);
+        Rating rating3 = new Rating(false, "Kommentar3", 1, null, null);
+        Rating rating4 = new Rating(false, "Kommentar4", 4, null, null);
 
         // Generate Test-Lists containing Test-Ratings
         List<Rating> ratings1 = new ArrayList<>();
@@ -199,8 +212,7 @@ public class RatingController {
         category21.put("id", 21L);
         category21.put("name", "Digitale Signatur");
 
-
-        // Erstellen des Items
+        // Create items
         Map<String, Object> item = new HashMap<>();
         item.put("id", 0);
         item.put("category", category1);
@@ -231,7 +243,7 @@ public class RatingController {
         item4.put("question", "Existiert eine fein granulare Berechtigungs- und Kommunikatiosmatrix für die VPN-Appliance?");
         item4.put("points", null);
         item4.put("comment", "");
-        item4.put("na", true);  
+        item4.put("na", true);
 
         Map<String, Object> item5 = new HashMap<>();
         item5.put("id", 4);
@@ -239,7 +251,7 @@ public class RatingController {
         item5.put("question", "Wird eine SSL Inspection durchgeführt?");
         item5.put("points", 2);
         item5.put("comment", "ja aber veraltete cipher suites verwendet. Bitte verbessern");
-        item5.put("na", false);  
+        item5.put("na", false);
 
         Map<String, Object> item6 = new HashMap<>();
         item6.put("id", 5);
@@ -247,7 +259,7 @@ public class RatingController {
         item6.put("question", "Wird ein Web-Proxy eingesetzt, über den alle HTTP(S)-Verbindungen gehen müssen?");
         item6.put("points", 0);
         item6.put("comment", "Dringendes Verbesserungspotenzial");
-        item6.put("na", false);  
+        item6.put("na", false);
 
         Map<String, Object> item7 = new HashMap<>();
         item7.put("id", 6);
@@ -255,9 +267,9 @@ public class RatingController {
         item7.put("question", "Werden HTTP(S)-Verbindungen abseits des Web-Proxies blockiert? (Ausnahmeregeln vermeiden)");
         item7.put("points", null);
         item7.put("comment", "Dringendes Verbesserungspotenzial");
-        item7.put("na", true);  
+        item7.put("na", true);
 
-        // Hinzufügen des Items zur Liste
+        // Add items to list
         List<Map<String, Object>> items1 = new ArrayList<>();
         items1.add(item);
         items1.add(item2);
@@ -266,15 +278,6 @@ public class RatingController {
         items1.add(item5);
         items1.add(item6);
         items1.add(item7);
-
-
-
-
-
-
-
-
-
 
         Map<String, Object> item8 = new HashMap<>();
         item8.put("id", 7);
@@ -290,7 +293,7 @@ public class RatingController {
         item9.put("question", "Besteht eine Übersicht über alle in der Infrastruktur installierten Software-Anwendungen?");
         item9.put("points", 3);
         item9.put("comment", "Könnte noch etwas verbessert werden. Wurde letztes mal schon mehr oder weniger ignoriert.");
-        item9.put("na", false);  
+        item9.put("na", false);
 
         Map<String, Object> item10 = new HashMap<>();
         item10.put("id", 9);
@@ -298,7 +301,7 @@ public class RatingController {
         item10.put("question", "Ist ein Patch-Management Prozess etabliert?");
         item10.put("points", 2);
         item10.put("comment", "ja aber das kann auch noch ein wenig verbessern");
-        item10.put("na", false);  
+        item10.put("na", false);
 
         Map<String, Object> item11 = new HashMap<>();
         item11.put("id", 10);
@@ -306,7 +309,7 @@ public class RatingController {
         item11.put("question", "Gibt es eine Übersicht über alle Richtlinien, Dokumentationen, etc. ?");
         item11.put("points", 5);
         item11.put("comment", "alles top!");
-        item11.put("na", false);  
+        item11.put("na", false);
 
         Map<String, Object> item12 = new HashMap<>();
         item12.put("id", 11);
@@ -314,9 +317,7 @@ public class RatingController {
         item12.put("question", "Sind Verantwortlichkeiten in Bezug auf die Informationssicherheit verteilt? Gibt es eine Sicherheitsorganisation?");
         item12.put("points", null);
         item12.put("comment", "Trifft leider nicht zu dieser Punkt");
-        item12.put("na", true); 
-
-
+        item12.put("na", true);
 
         List<Map<String, Object>> items2 = new ArrayList<>();
         items2.add(item8);
@@ -332,15 +333,5 @@ public class RatingController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ArrayList<>());
         }
-
-
-
-        // // Error Handling 404 - Non-existing Audit
-        // if (ratingsAssigned.containsKey(auditId)) {
-        //     return ResponseEntity.ok(ratingsAssigned.get(auditId));
-        // } else {
-        //     return ResponseEntity.notFound().build();
-        // }
     }
-
 }

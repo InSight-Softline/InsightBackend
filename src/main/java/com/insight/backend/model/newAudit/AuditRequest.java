@@ -6,7 +6,7 @@ public class AuditRequest {
     private String name;
     private List<Integer> categories;
 
-    // Getter und Setter
+    // Getters and Setters
     public String getName() {
         return name;
     }
