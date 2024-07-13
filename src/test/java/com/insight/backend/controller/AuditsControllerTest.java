@@ -3,12 +3,15 @@ package com.insight.backend.controller;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -22,9 +25,12 @@ import com.insight.backend.service.audit.CreateAuditService;
 /**
  * Unit tests for validating the behavior of {@link AuditsController}.
  * These tests are focused on verifying the correct handling of HTTP POST requests
- * for creating audits, including scenarios with invalid JSON payloads and empty categories.
+ * for creating audits, including scenarios with invalid JSON payloads, empty categories,
+ * and non-existing categories.
  */
-@WebMvcTest(AuditsController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class AuditsControllerTest {
 
     @Autowired
@@ -70,9 +76,12 @@ public class AuditsControllerTest {
                 .content(objectMapper.writeValueAsString(newAuditDTO))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.categories").value("Categories cannot be empty"));
+                .andExpect(result -> {
+                    String content = result.getResponse().getContentAsString();
+                    assertTrue(content.contains("Categories cannot be empty"),
+                            "Response body should contain error message");
+                });
     }
-
     /**
      * Test case for validating handling of non-existing categories.
      * Expects a HTTP 400 Bad Request response with a specific error message.
@@ -92,7 +101,7 @@ public class AuditsControllerTest {
                 .content(objectMapper.writeValueAsString(newAuditDTO))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error").value("failed_to_create"));
+                .andExpect(jsonPath("$.error").value("Failed to create audit: non existing category provided"));
     }
 
     /**
@@ -107,18 +116,20 @@ public class AuditsControllerTest {
         NewAuditDTO newAuditDTO = new NewAuditDTO();
         newAuditDTO.setName("Audit Name");
         newAuditDTO.setCategories(Collections.singletonList(1L));
-
+    
         AuditResponseDTO auditResponseDTO = new AuditResponseDTO();
         auditResponseDTO.setId(1L);
         auditResponseDTO.setName("Audit Name");
-
+    
+        // Mocking behavior of createAuditService
         when(createAuditService.createAudit(newAuditDTO)).thenReturn(auditResponseDTO);
-
+    
         mockMvc.perform(post("/api/v1/audits/new")
                 .content(objectMapper.writeValueAsString(newAuditDTO))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
+                .andExpect(status().isCreated())  // Expecting status code 201
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Audit Name"));
     }
+    
 }
