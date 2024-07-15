@@ -3,16 +3,19 @@ package com.insight.backend.controller;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insight.backend.dto.AuditResponseDTO;
 import com.insight.backend.dto.NewAuditDTO;
 import com.insight.backend.service.audit.CreateAuditService;
+import com.insight.backend.service.audit.FindAuditService;
 
 /**
  * Unit tests for validating the behavior of {@link AuditsController}.
@@ -31,6 +35,7 @@ import com.insight.backend.service.audit.CreateAuditService;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Import(TestConfig.class)
 public class AuditsControllerTest {
 
     @Autowired
@@ -40,7 +45,22 @@ public class AuditsControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
+    private FindAuditService findAuditService;
+
+    @MockBean
     private CreateAuditService createAuditService;
+
+    @BeforeEach
+    void setUp() {
+        // Mocking behavior for createAuditService
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(null);
+    }
+
+    @Test
+    void testGetAuditsEndpoint() throws Exception {
+        mockMvc.perform(get("/api/v1/audits"))
+               .andExpect(status().isOk());
+    }
 
     /**
      * Test case for validating handling of invalid JSON payload.
@@ -66,22 +86,18 @@ public class AuditsControllerTest {
      * @throws Exception if there is an error performing the MVC request
      */
     @Test
-    public void testEmptyCategories() throws Exception {
-        // Audit DTO with empty categories list
-        NewAuditDTO newAuditDTO = new NewAuditDTO();
-        newAuditDTO.setName("Audit Name");
-        newAuditDTO.setCategories(Collections.emptyList());
+    void testEmptyCategories() throws Exception {
+        NewAuditDTO requestDto = new NewAuditDTO();
+        requestDto.setName("Audit Name");
+        requestDto.setCategories(Collections.emptyList()); // Set empty categories list
 
         mockMvc.perform(post("/api/v1/audits/new")
-                .content(objectMapper.writeValueAsString(newAuditDTO))
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(result -> {
-                    String content = result.getResponse().getContentAsString();
-                    assertTrue(content.contains("Categories cannot be empty"),
-                            "Response body should contain error message");
-                });
+                .andExpect(jsonPath("$.message").value("Categories cannot be empty"));
     }
+
     /**
      * Test case for validating handling of non-existing categories.
      * Expects a HTTP 400 Bad Request response with a specific error message.
@@ -90,12 +106,11 @@ public class AuditsControllerTest {
      */
     @Test
     public void testNonExistingCategories() throws Exception {
-        // Audit DTO with non-existing categories
         NewAuditDTO newAuditDTO = new NewAuditDTO();
         newAuditDTO.setName("Audit Name");
         newAuditDTO.setCategories(Arrays.asList(1L, 2326547890321312L));
 
-        when(createAuditService.createAudit(newAuditDTO)).thenReturn(null);
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(null);
 
         mockMvc.perform(post("/api/v1/audits/new")
                 .content(objectMapper.writeValueAsString(newAuditDTO))
@@ -122,7 +137,7 @@ public class AuditsControllerTest {
         auditResponseDTO.setName("Audit Name");
     
         // Mocking behavior of createAuditService
-        when(createAuditService.createAudit(newAuditDTO)).thenReturn(auditResponseDTO);
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(auditResponseDTO);
     
         mockMvc.perform(post("/api/v1/audits/new")
                 .content(objectMapper.writeValueAsString(newAuditDTO))
@@ -131,5 +146,4 @@ public class AuditsControllerTest {
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Audit Name"));
     }
-    
 }
