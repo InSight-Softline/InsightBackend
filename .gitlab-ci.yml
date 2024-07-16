@@ -65,7 +65,7 @@ docker-deploy-job:
     - echo -n "${CI_REGISTRY_PASSWORD}" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin    
     - docker build --build-arg JAR_FILE=build/libs/*.jar -t gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend .    
     - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend
-    - docker tag backend gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:$CI_PIPELINE_ID
+    - docker tag gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:$CI_PIPELINE_ID
     - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:$CI_PIPELINE_ID  
     - echo "[*] Image Build & Deployment was executed."
 
