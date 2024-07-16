@@ -1,46 +1,36 @@
 package com.insight.backend.dto;
 
-import jakarta.validation.constraints.*;
-
 /**
- * Data Transfer Object to represent error responses
+ * Data Transfer Object to represent error responses.
  */
 public class ErrorDTO {
 
     /**
-     * Error message.
-     * Must not be blank.
+     * The error message to be conveyed to the client.
      */
-    @NotBlank(message = "Error message cannot be blank")
-    @Size(max = 255, message = "Name should be up to 255 characters")
-    private String error;
+    private String message;
 
     /**
-     * No-arg constructor (required for frameworks)
+     * Constructor to initialize the error message.
+     * @param message the error message.
      */
-    public ErrorDTO() {}
-
-    /**
-     * Constructor to initialize error message
-     * @param error error message
-     */
-    public ErrorDTO(String error) {
-        this.error = error;
+    public ErrorDTO(String message) {
+        this.message = message;
     }
 
     /**
-     * Getter for error message
-     * @return error message
+     * Getter for the error message.
+     * @return the error message.
      */
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
     /**
-     * Setter for error message
-     * @param error error message
+     * Setter for the error message.
+     * @param message the error message.
      */
-    public void setError(String error) {
-        this.error = error;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
