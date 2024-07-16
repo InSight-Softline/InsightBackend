@@ -41,7 +41,7 @@ backend-build-job:
   script:
     - echo "Building the application..."
     - ./gradlew bootJar
-    - echo "Building complete! :)"
+    - echo "Building complete!"
   artifacts:
     paths:
       - build/libs/*.jar 
@@ -65,9 +65,8 @@ docker-deploy-job:
     - echo -n "${CI_REGISTRY_PASSWORD}" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin    
     - docker build --build-arg JAR_FILE=build/libs/*.jar -t gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend .    
     - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend
-    - echo $CI_MERGE_REQUEST_ID
-    #- docker tag $CI_MERGE_REQUEST_ID gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID
-    #- docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID  
+    - docker tag backend gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:$CI_PIPELINE_ID
+    - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:$CI_PIPELINE_ID  
     - echo "[*] Image Build & Deployment was executed."
 
 #DEPLOYMENT STAGE
