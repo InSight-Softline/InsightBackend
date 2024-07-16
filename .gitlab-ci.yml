@@ -66,8 +66,8 @@ docker-deploy-job:
     - docker build --build-arg JAR_FILE=build/libs/*.jar -t gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend .    
     - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend
     - echo $CI_MERGE_REQUEST_ID
-    - #docker tag $CI_MERGE_REQUEST_ID gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID
-    - #docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID  
+    #- docker tag $CI_MERGE_REQUEST_ID gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID
+    #- docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/frontend:$CI_MERGE_REQUEST_ID  
     - echo "[*] Image Build & Deployment was executed."
 
 #DEPLOYMENT STAGE
