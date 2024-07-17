@@ -10,7 +10,7 @@ public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean isNa = false;
+    private Boolean isNa = null;
     private String comment = "";
     @Min(0)
     @Max(5)
