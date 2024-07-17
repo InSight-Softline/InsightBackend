@@ -149,13 +149,13 @@ public class AuditControllerTestHttpPost {
     }
 
     @Test
-    public void testDuplicateCategoriesAuditCreation() throws Exception {
+    public void testNullAuditCreation() throws Exception {
         // Audit DTO with valid categories
         NewAuditDTO newAuditDTO = new NewAuditDTO();
         newAuditDTO.setName("Audit Name");
         List<Long> categories = new ArrayList<>();
         categories.add(1L);
-        categories.add(2L);
+        categories.add(1L);
         newAuditDTO.setCategories(categories);
 
         AuditResponseDTO auditResponseDTO = new AuditResponseDTO();
