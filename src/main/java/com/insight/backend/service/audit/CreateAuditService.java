@@ -51,9 +51,14 @@ public class CreateAuditService {
         audit.setName(newAuditDTO.getName());
 
         List<Rating> ratings = new ArrayList<>();
-
-        // Add questions to the audit and create ratings for each question
+        List<Long> checkedCategories = new ArrayList<>();
+        // Check for duplicate Categories, add questions to the audit and create ratings for each question
         for (Long categoryId : newAuditDTO.getCategories()) {
+            if (checkedCategories.contains(categoryId)) {
+                return null;
+            } else {
+                checkedCategories.add(categoryId);
+            }
             Optional<Category> categoryOpt = findCategoryService.findCategoryById(categoryId);
             if (categoryOpt.isPresent()) {
                 Category category = categoryOpt.get();

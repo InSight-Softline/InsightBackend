@@ -24,14 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuditsController {
 
-    /** 
+    /**
      * The FindAuditService to use the service methods.
      */
     private final FindAuditService findAuditService;
     private final CreateAuditService createAuditService;
     /**
      * Constructs a new AuditsController with the specified FindAuditService.
-     * 
+     *
      * @param findAuditService the service to find audits
      */
     @Autowired
@@ -42,7 +42,7 @@ public class AuditsController {
 
     /**
      * GET requests for retrieving all audits.
-     * 
+     *
      * @return a ResponseEntity containing a list of Audit objects
      */
     @GetMapping("api/v1/audits")
@@ -64,7 +64,7 @@ public class AuditsController {
         AuditResponseDTO responseDTO = createAuditService.createAudit(newAuditDTO);
 
         if (responseDTO == null) {
-            ErrorDTO errorDTO = new ErrorDTO("non existing category provided");
+            ErrorDTO errorDTO = new ErrorDTO("non existing or duplicate category provided");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorDTO);
         }
 

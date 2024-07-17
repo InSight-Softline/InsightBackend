@@ -1,7 +1,9 @@
 package com.insight.backend.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.insight.backend.dto.AuditResponseDTO;
@@ -144,5 +146,28 @@ public class AuditControllerTestHttpPost {
                 .andExpect(status().isCreated())  // Expecting status code 201
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Audit Name"));
+    }
+
+    @Test
+    public void testDuplicateCategoriesAuditCreation() throws Exception {
+        // Audit DTO with valid categories
+        NewAuditDTO newAuditDTO = new NewAuditDTO();
+        newAuditDTO.setName("Audit Name");
+        List<Long> categories = new ArrayList<>();
+        categories.add(1L);
+        categories.add(2L);
+        newAuditDTO.setCategories(categories);
+
+        AuditResponseDTO auditResponseDTO = new AuditResponseDTO();
+        auditResponseDTO.setId(1L);
+        auditResponseDTO.setName("Audit Name");
+
+        // Mocking behavior of createAuditService
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(null);
+
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .content(objectMapper.writeValueAsString(newAuditDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());  // Expecting status code 400
     }
 }
