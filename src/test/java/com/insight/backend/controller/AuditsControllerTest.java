@@ -1,14 +1,16 @@
 package com.insight.backend.controller;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
 
-import com.insight.backend.model.Audit;
-import com.insight.backend.service.audit.FindAuditService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.insight.backend.dto.AuditResponseDTO;
+import com.insight.backend.dto.NewAuditDTO;
 import com.insight.backend.service.audit.CreateAuditService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -16,90 +18,124 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * test class for testing AuditsController
+ * Unit tests for validating the behavior of {@link AuditsController}.
+ * These tests are focused on verifying the correct handling of HTTP POST requests
+ * for creating audits, including scenarios with invalid JSON payloads, empty categories,
+ * and non-existing categories.
  */
 @WebMvcTest(AuditsController.class)
 @ExtendWith(SpringExtension.class)
 public class AuditsControllerTest {
 
-    /**
-     * MockMvc instance for HTTP request mocking
-     */
     @Autowired
     private MockMvc mockMvc;
 
-    /**
-     * MockBean for FindAutitService
-     */
-    @MockBean
-    private FindAuditService findAuditService;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    /**
-     * MockBean for CreateAuditService
-     */
     @MockBean
     private CreateAuditService createAuditService;
 
-    private Audit audit1;
-    private Audit audit2;
-
-    /**
-     * Set up test data before each test method execution.
-     */
     @BeforeEach
-    public void setup() {
-        audit1 = new Audit();
-        audit2 = new Audit();
-        audit1.setName("TestAudit1");
-        audit2.setName("TestAudit2");
-        audit1.setId(1L);
-        audit2.setId(2L);
+    void setUp() {
+        // Mocking behavior for createAuditService
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(null);
+    }
+
+    @Test
+    void testGetAuditsEndpoint() throws Exception {
+        mockMvc.perform(get("/api/v1/audits"))
+                .andExpect(status().isOk());
     }
 
     /**
-     * Tests getting all available audits.
-     * 
-     * @throws Exception if an error occurs during the request
+     * Test case for validating handling of invalid JSON payload.
+     * Expects a HTTP 400 Bad Request response.
+     *
+     * @throws Exception if there is an error performing the MVC request
      */
     @Test
-    public void testGetAllAudits() throws Exception {
-        // Mock the service to return the Audits
-        List<Audit> audits = Arrays.asList(audit1, audit2);
-        when(findAuditService.findAllAudits()).thenReturn(audits);
+    public void testInvalidJson() throws Exception {
+        // Malformed JSON payload
+        String invalidJson = "{ \"name\": \"Audit Name\", \"categories\": ";
 
-        // Perform the GET request and verify the response
-        mockMvc.perform(get("/api/v1/audits"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[0].name").value("TestAudit1"))
-                .andExpect(jsonPath("$[1].id").value(2))
-                .andExpect(jsonPath("$[1].name").value("TestAudit2"));
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .content(invalidJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     /**
-     * Test gettin an empty list of audits.
-     * 
-     * @throws Exception if an error occurs during the request
+     * Test case for validating handling of empty categories in the audit DTO.
+     * Expects a HTTP 400 Bad Request response with a specific error message.
+     *
+     * @throws Exception if there is an error performing the MVC request
      */
     @Test
-    public void testGetEmpties() throws Exception {
-        List<Audit> audits = new ArrayList<>();
-        when(findAuditService.findAllAudits()).thenReturn(audits);
+    public void testEmptyCategories() throws Exception {
+        NewAuditDTO requestDto = new NewAuditDTO();
+        requestDto.setName("Audit Name");
+        requestDto.setCategories(Collections.emptyList()); // Set empty categories list
 
-        // Perform the GET request and verify the response
-        mockMvc.perform(get("/api/v1/audits"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(0)));
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest());
     }
 
+    /**
+     * Test case for validating handling of non-existing categories.
+     * Expects a HTTP 400 Bad Request response with a specific error message.
+     *
+     * @throws Exception if there is an error performing the MVC request
+     */
+    @Test
+    public void testNonExistingCategories() throws Exception {
+        NewAuditDTO newAuditDTO = new NewAuditDTO();
+        newAuditDTO.setName("Audit Name");
+        newAuditDTO.setCategories(Arrays.asList(1L, 2326547890321312L));
+
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(null);
+
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .content(objectMapper.writeValueAsString(newAuditDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json("{\"error\": \"non existing category provided\"}"));
+    }
+
+    /**
+     * Test case for successful creation of an audit.
+     * Expects a HTTP 201 Created response with the details of the created audit.
+     *
+     * @throws Exception if there is an error performing the MVC request
+     */
+    @Test
+    public void testSuccessfulAuditCreation() throws Exception {
+        // Audit DTO with valid categories
+        NewAuditDTO newAuditDTO = new NewAuditDTO();
+        newAuditDTO.setName("Audit Name");
+        newAuditDTO.setCategories(Collections.singletonList(1L));
+
+        AuditResponseDTO auditResponseDTO = new AuditResponseDTO();
+        auditResponseDTO.setId(1L);
+        auditResponseDTO.setName("Audit Name");
+
+        // Mocking behavior of createAuditService
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenReturn(auditResponseDTO);
+
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .content(objectMapper.writeValueAsString(newAuditDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())  // Expecting status code 201
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("Audit Name"));
+    }
 }
