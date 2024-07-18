@@ -32,6 +32,7 @@ sonarqube-check:
     when: on_failure
     paths:
       - "${CI_PROJECT_DIR}/.sonar"
+      - $SONAR_HOME
       - "./logs"
       - "/logs"
 
