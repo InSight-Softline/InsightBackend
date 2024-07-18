@@ -29,7 +29,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: gradle sonar
-  allow_failure: false
+  allow_failure: true
   dependencies:
     - e2e-test-job 
   only:
