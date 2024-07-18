@@ -29,8 +29,11 @@ sonarqube-check:
     - gradle sonar
   allow_failure: true
   artifacts:
+    when: on_failure
     paths:
       - "${CI_PROJECT_DIR}/.sonar"
+      - "./logs"
+      - "/logs"
 
 
 # BUILD STAGE
