@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.6'
     id 'io.spring.dependency-management' version '1.1.5'
     id "org.sonarqube" version "4.4.1.3373"
+    id "jacoco"
 }
 
 group = 'com.insight'
@@ -54,16 +55,6 @@ bootJar {
     archiveFileName = 'insight-spring.jar'
 }
 
-task buildDocker(type: Exec) {
-    dependsOn build
-    commandLine 'docker', 'build', '-t', 'insight-spring', '.'
-}
-
-task runDocker(type: Exec) {
-    dependsOn buildDocker
-    commandLine 'docker', 'run', '-p', '81:81', 'insight-spring'
-}
-
 test {
     testLogging {
         showStandardStreams = true
@@ -77,6 +68,8 @@ test {
             }
         }
     }
+
+    finalizedBy jacocoTestReport
 }
 
 sonar {
@@ -84,5 +77,18 @@ sonar {
     property "sonar.projectKey", "Insight__Backend"
     property "sonar.projectName", "Insight__Backend"
     property "sonar.qualitygate.wait", true
+    property "sonar.java.binaries", "/bin/"
+
+    property "sonar.coverage.jacoco.xmlReportPath", "/build/reports/jacocoTestReport.xml"
   }
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = false
+    }
 }
