@@ -26,7 +26,6 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script:
-    - cd services/data-manager
     - sonar-scanner
   allow_failure: true
 
