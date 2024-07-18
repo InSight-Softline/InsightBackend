@@ -77,7 +77,7 @@ sonar {
     property "sonar.projectKey", "Insight__Backend"
     property "sonar.projectName", "Insight__Backend"
     property "sonar.qualitygate.wait", true
-    property "sonar.java.binaries", "/bin/"
+    property "sonar.java.binaries", "/build/classes/java/main"
     property "sonar.coverage.exclusions", "*/.*"
     property "sonar.coverage.jacoco.xmlReportPath", "/build/reports/jacocoTestReport.xml"
   }
