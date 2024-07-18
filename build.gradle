@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.6'
     id 'io.spring.dependency-management' version '1.1.5'
-    id "org.sonarqube" version "4.4.1.3373"
+    id "org.sonarqube" version "5.0.0.4638"
     id "jacoco"
 }
 
@@ -78,7 +78,7 @@ sonar {
     property "sonar.projectName", "Insight__Backend"
     property "sonar.qualitygate.wait", true
     property "sonar.java.binaries", "/bin/"
-
+    property "sonar.coverage.exclusions", "*/.*"
     property "sonar.coverage.jacoco.xmlReportPath", "/build/reports/jacocoTestReport.xml"
   }
 }
