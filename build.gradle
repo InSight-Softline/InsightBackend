@@ -82,7 +82,6 @@ sonar {
         property "sonar.log.level.es", "DEBUG"
         property "sonar.plugins.downloadOnlyRequired", true
         property "sonar.sources", "src/main"
-        proptery "sonar.tests", "src/test"
     }
 }
 
