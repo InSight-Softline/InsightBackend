@@ -30,7 +30,7 @@ sonarqube-check:
   allow_failure: true
   artifacts:
     paths:
-      - ${SONAR_USER_HOME}
+      - "${CI_PROJECT_DIR}/.sonar"
 
 
 # BUILD STAGE
