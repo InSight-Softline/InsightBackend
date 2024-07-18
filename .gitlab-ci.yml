@@ -22,8 +22,6 @@ sonarqube-check:
     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
     key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cacheSONAR_JACOCO_REPORTS_PATHS: "build/reports/jacoco/test/jacocoTestReport.xml"
   script: gradle sonar --stacktrace
   allow_failure: true
   only:
