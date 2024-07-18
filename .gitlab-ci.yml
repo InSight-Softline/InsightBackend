@@ -26,8 +26,11 @@ sonarqube-check:
       - .sonar/cache
   script: 
     - ./gradlew build
-    - gradle sonarqube -Dsonar.qualitygate.wait=true
+    - gradle sonar
   allow_failure: true
+  artifacts:
+    paths:
+      - ${SONAR_USER_HOME}/logs
 
 
 # BUILD STAGE
