@@ -30,7 +30,7 @@ sonarqube-check:
   allow_failure: true
   artifacts:
     paths:
-      - ${SONAR_USER_HOME}/logs
+      - ${SONAR_USER_HOME}
 
 
 # BUILD STAGE
