@@ -14,7 +14,7 @@ e2e-test-job:
     - ./gradlew test
   artifacts:
     paths:
-      - tests.xml
+      - build/reports/jacoco/test/jacocoTestReport.xml
 
 #Sonecube Stage
 sonarqube-check:
