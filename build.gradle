@@ -81,6 +81,7 @@ sonar {
     property "sonar.coverage.exclusions", "*/.*"
     property "sonar.coverage.jacoco.xmlReportPath", "/build/reports/jacocoTestReport.xml"
     property "sonar.log.level.es", "DEBUG"
+    property "sonar.plugins.downloadOnlyRequired", true
   }
 }
 
