@@ -13,6 +13,15 @@ e2e-test-job:
     - ./gradlew test
 
 
+gradle:build:
+  stage: .pre
+  image: gradle:8-jdk
+  script:
+    - ./gradlew build
+  artifacts:
+    paths:
+      - ./build
+
 #Sonecube Stage
 sonarqube-check:
   stage: test
