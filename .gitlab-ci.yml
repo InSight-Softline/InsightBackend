@@ -37,7 +37,6 @@ sonarqube-check:
     - master
     - main
     - develop
-    - feat-131
 
 # BUILD STAGE
 backend-build-job:      
