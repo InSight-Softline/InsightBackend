@@ -42,7 +42,12 @@ class CreateAuditServiceTest {
 
     @InjectMocks
     private CreateAuditService createAuditService;
-
+   
+    /**
+     * Tests the createAudit method for a successful audit creation.
+     * Verifies that the audit and ratings are saved correctly.
+     */
+   
     @Test
     public void testCreateAudit_success() {
         NewAuditDTO newAuditDTO = new NewAuditDTO();
@@ -81,6 +86,11 @@ class CreateAuditServiceTest {
         verify(saveAuditService, times(1)).saveAudit(any(Audit.class));
     }
 
+     /**
+     * Tests the createAudit method when an invalid category ID is provided.
+     * Verifies that the method throws NonExistentAuditCategoryException.
+     */
+    
     @Test
     public void testCreateAudit_invalidCategory() {
         NewAuditDTO newAuditDTO = new NewAuditDTO();
@@ -88,13 +98,16 @@ class CreateAuditServiceTest {
         newAuditDTO.setCategories(Arrays.asList(1L, 2L));
 
         when(findCategoryService.findCategoryById(1L)).thenReturn(Optional.empty());
-
+      
+        // Check that NonExistentAuditCategoryException is thrown
         NonExistentAuditCategoryException exception = assertThrows(NonExistentAuditCategoryException.class, () -> createAuditService.createAudit(newAuditDTO));
         assertEquals("Category with id 1 not found", exception.getMessage());
 
+        // Ensure that save methods are not called        
         verify(saveRatingService, never()).saveAllRatings(anyList());
         verify(saveAuditService, never()).saveAudit(any(Audit.class));
 
+        // Verify the findCategoryService is called correctly
         verify(findCategoryService, times(1)).findCategoryById(1L);
         verify(findCategoryService, never()).findCategoryById(2L);
     }
