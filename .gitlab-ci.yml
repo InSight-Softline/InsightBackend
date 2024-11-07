@@ -72,8 +72,6 @@ publish-job:
   stage: deploy  
   variables:
     DOCKER_IMAGE: gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest
-  tags:
-    - prod
   #rules:
   # - if: $CI_COMMIT_REF_NAME == "main"
   before_script:
