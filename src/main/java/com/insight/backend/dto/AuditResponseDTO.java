@@ -22,6 +22,10 @@ public class AuditResponseDTO {
     @Size(max = 255, message = "Name should be up to 255 characters")
     private String name;
 
+    /**
+     * The name of the Customer.
+     * Must not be empty and should not exceed 255 characters.
+     */
     @NotEmpty(message = "Customer cannot be empty")
     @Size(max = 255, message = "Customer should be up to 255 characters")
     private String customer;
