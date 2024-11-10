@@ -63,26 +63,19 @@ public class RatingController {
     public ResponseEntity<List<RatingDTO>> updateRating(@PathVariable("ratingId") long ratingId,
                                                         @RequestBody JsonPatch patch) {
         try {
-            // Fetch the rating entity from the database
             Rating entity = findRatingService.findRatingById(ratingId)
                     .orElseThrow(RatingNotFoundException::new);
 
-            // Convert entity to JSON tree (JsonNode)
             JsonNode entityJsonNode = objectMapper.convertValue(entity, JsonNode.class);
-            // Apply the patch to the entity's JSON representation
+
             JsonNode patchedEntityJsonNode = patch.apply(entityJsonNode);
-            // Convert the patched JSON back to a Rating entity
             Rating patchedEntity = objectMapper.treeToValue(patchedEntityJsonNode, Rating.class);
-            // Save the patched entity
             Rating updatedEntity = saveRatingService.saveRating(patchedEntity);
 
-            // Map the updated entity to DTO
             RatingDTO ratingDTO = ratingMapper.convertToRatingDTO(updatedEntity);
 
-            // Return the updated RatingDTO as a list (to comply with API schema)
             return ResponseEntity.ok(Collections.singletonList(ratingDTO));
         } catch (JsonPatchException | JsonProcessingException e) {
-            // Return internal server error if any exception occurs
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
