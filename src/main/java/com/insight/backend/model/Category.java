@@ -20,6 +20,7 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private Set<Question> questions;
 
+    @JsonIgnore
     private LocalDateTime deletedAt;
 
     public Category(String name, Set<Question> questions) {

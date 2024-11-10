@@ -1,4 +1,5 @@
 package com.insight.backend.dto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.*;
 
@@ -46,6 +47,7 @@ public class RatingDTO {
     /**
      * Flag indicating whether the rating is not applicable.
      */
+    @JsonProperty("na")
     private Boolean nA;
 
     /**

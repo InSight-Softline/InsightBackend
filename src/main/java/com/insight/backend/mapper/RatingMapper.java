@@ -27,7 +27,7 @@ public class RatingMapper {
      * @param rating the Rating object to be converted
      * @return the converted RatingDTO object
      */
-    private RatingDTO convertToRatingDTO(Rating rating) {
+    public RatingDTO convertToRatingDTO(Rating rating) {
         RatingDTO ratingDTO = new RatingDTO();
         ratingDTO.setId(rating.getId());
         ratingDTO.setnA(rating.getNa());
