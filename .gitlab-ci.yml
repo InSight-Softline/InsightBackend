@@ -74,8 +74,8 @@ publish-job:
     DOCKER_IMAGE: gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest
   tags:
     - prod
-  rules:
-   - if: $CI_COMMIT_REF_NAME == "main"
+  #rules:
+  # - if: $CI_COMMIT_REF_NAME == "main"
   before_script:
     - podman logout --all || true
     - echo -n "${CI_REGISTRY_PASSWORD}" | podman login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
