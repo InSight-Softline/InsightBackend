@@ -67,12 +67,12 @@ public class FindAuditServiceTest {
     }
 
     @Test
-    void testFindAllAudits() {
+    void testFindAllNonDeletedAudits() {
     audit1.setDeletedAt(null); 
     audit2.setDeletedAt(LocalDateTime.now()); 
 
     List<Audit> audits = Arrays.asList(audit1);
-    when(auditRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(audits);
+    when(auditRepository.findAllByDeletedAtIsNull()).thenReturn(audits);
 
     List<Audit> foundAudits = findAuditService.findAllAudits("", "asc", "id");
 

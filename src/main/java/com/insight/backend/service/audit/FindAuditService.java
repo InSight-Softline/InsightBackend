@@ -7,8 +7,6 @@ import com.insight.backend.model.Audit;
 import com.insight.backend.repository.AuditRepository;
 import com.insight.backend.specifications.AuditSpecifications;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,6 +38,15 @@ public class FindAuditService {
     }
 
     /**
+     * Finds all audits.
+     * 
+     * @return a list of all audits
+     */
+    public List<Audit> findAllAudits() {
+        return auditRepository.findAll();
+    }
+
+    /**
      * Finds all audits with the specified customer name and filters non-deleted ones.
      *
      * @param customerName the name of the customer to search for
@@ -47,14 +54,8 @@ public class FindAuditService {
      * @param sortBy the field to sort by
      * @return a list of all audits matching the filters
      */
-    public List<Audit> findAllAudits(String customerName, String sortDirection, String sortBy) {
-        Sort sort = Sort.by(sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
-        Specification<Audit> spec = AuditSpecifications.isNotDeleted();
-
-        if (customerName != null && !customerName.isEmpty()) {
-            spec = spec.and(AuditSpecifications.customerContains(customerName));
-        }
-
-        return auditRepository.findAll(spec, sort);
+    public List<Audit> findAllNonDeletedAudits() {
+        // Returns all audits where DeletedAt is null (i.e., not soft-deleted)
+        return auditRepository.findAllByDeletedAtIsNull();
     }
 }
