@@ -67,14 +67,14 @@ public class FindAuditServiceTest {
     }
 
     @Test
-    void testFindAllNonDeletedAudits() {
-    audit1.setDeletedAt(null); 
-    audit2.setDeletedAt(LocalDateTime.now()); 
+    void testFindAllAudits() {
+    audit1.setDeletedAt(null);
+    audit2.setDeletedAt(LocalDateTime.now());
 
     List<Audit> audits = Arrays.asList(audit1);
     when(auditRepository.findAllByDeletedAtIsNull()).thenReturn(audits);
 
-    List<Audit> foundAudits = findAuditService.findAllAudits("", "asc", "id");
+    List<Audit> foundAudits = findAuditService.findAllNonDeletedAudits();
 
     assertTrue(foundAudits.stream().allMatch(audit -> audit.getDeletedAt() == null));
     assertEquals(1, foundAudits.size());

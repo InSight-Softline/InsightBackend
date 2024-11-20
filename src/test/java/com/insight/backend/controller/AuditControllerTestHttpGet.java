@@ -100,7 +100,7 @@ public class AuditControllerTestHttpGet {
     @Test
     public void testGetEmpties() throws Exception {
         List<Audit> audits = new ArrayList<>();
-        when(findAuditService.findAllAudits("", "asc", "id")).thenReturn(audits);
+        when(findAuditService.findAllNonDeletedAudits()).thenReturn(audits);
 
         // Perform the GET request and verify the response
         mockMvc.perform(get("/api/v1/audits"))
