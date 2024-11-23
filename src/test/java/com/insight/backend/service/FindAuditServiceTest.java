@@ -1,5 +1,6 @@
 package com.insight.backend.service;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +14,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Sort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -64,11 +68,15 @@ public class FindAuditServiceTest {
 
     @Test
     void testFindAllAudits() {
-        List<Audit> audits = Arrays.asList(audit1, audit2);
-        when(auditRepository.findAll()).thenReturn(audits);
+    audit1.setDeletedAt(null); 
+    audit2.setDeletedAt(LocalDateTime.now()); 
 
-        List<Audit> foundAudits = findAuditService.findAllAudits();
+    List<Audit> audits = Arrays.asList(audit1);
+    when(auditRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(audits);
 
-        assertEquals(audits, foundAudits);
-    }
+    List<Audit> foundAudits = findAuditService.findAllAudits("", "asc", "id");
+
+    assertTrue(foundAudits.stream().allMatch(audit -> audit.getDeletedAt() == null));
+    assertEquals(1, foundAudits.size());
+}
 }

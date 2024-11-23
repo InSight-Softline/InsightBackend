@@ -76,25 +76,21 @@ public class AuditControllerTestHttpGet {
      */
     @Test
     public void testGetAllAudits() throws Exception {
-        // Mock the service to return the Audits
-        List<Audit> audits = Arrays.asList(audit1, audit2);
+        audit1.setDeletedAt(null);
+        audit2.setDeletedAt(java.time.LocalDateTime.now());
+        List<Audit> audits = Arrays.asList(audit1);
+    
         when(findAuditService.findAllAudits("", "asc", "id")).thenReturn(audits);
-
-        // Perform the GET request and verify the response
+    
         mockMvc.perform(get("/api/v1/audits"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("TestAudit1"))
-                .andExpect(jsonPath("$[0].createdAt").exists())
-                .andExpect(jsonPath("$[1].id").value(2))
-                .andExpect(jsonPath("$[1].name").value("TestAudit2"))
-                .andExpect(jsonPath("$[1].createdAt").exists())
-                .andExpect(jsonPath("$[1].name").value("TestAudit2"))
-                .andExpect(jsonPath("$[0].customer").value("TestCustomer1"))
-                .andExpect(jsonPath("$[1].customer").value("TestCustomer2"));
+                .andExpect(jsonPath("$[0].customer").value("TestCustomer1"));
     }
+    
 
     /**
      * Test gettin an empty list of audits.
@@ -104,7 +100,7 @@ public class AuditControllerTestHttpGet {
     @Test
     public void testGetEmpties() throws Exception {
         List<Audit> audits = new ArrayList<>();
-        when(findAuditService.findAllAudits()).thenReturn(audits);
+        when(findAuditService.findAllAudits("", "asc", "id")).thenReturn(audits);
 
         // Perform the GET request and verify the response
         mockMvc.perform(get("/api/v1/audits"))

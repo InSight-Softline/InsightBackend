@@ -2,6 +2,7 @@ package com.insight.backend.specifications;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Root;
 
 import com.insight.backend.model.Audit;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class AuditSpecificationsTest {
@@ -58,10 +61,19 @@ class AuditSpecificationsTest {
         CriteriaBuilder cb = mock(CriteriaBuilder.class);
         CriteriaQuery<?> query = mock(CriteriaQuery.class);
         Root<Audit> root = mock(Root.class);
-
+    
+        Path<String> mockPath = (Path<String>) mock(Path.class);  
+        when(root.get("customer")).thenReturn((Path) mockPath); 
+        when(cb.lower(mockPath)).thenReturn(mockPath);  
+    
+         
         spec.toPredicate(root, query, cb);
-
+    
+         
         verify(root).get("customer");
-        verify(cb).like(any(), eq("%Test%"));
+        verify(cb).lower(mockPath);  
+        verify(cb).like(mockPath, "%test%");  
     }
+    
+    
 }

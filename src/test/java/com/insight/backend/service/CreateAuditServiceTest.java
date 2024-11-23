@@ -43,10 +43,6 @@ class CreateAuditServiceTest {
     @InjectMocks
     private CreateAuditService createAuditService;
 
-    /**
-     * Tests the createAudit method for a successful audit creation.
-     * Verifies that the audit and ratings are saved correctly.
-     */
     @Test
     public void testCreateAudit_success() {
         NewAuditDTO newAuditDTO = new NewAuditDTO();
@@ -70,7 +66,7 @@ class CreateAuditServiceTest {
         when(saveAuditService.saveAudit(any(Audit.class))).thenAnswer(invocation -> {
             Audit audit = invocation.getArgument(0);
             audit.setId(1L);
-            audit.setCreatedAt(java.time.LocalDateTime.now());
+            audit.setCreatedAt(java.time.LocalDateTime.of(2024, 11, 23, 21, 59)); // توقيت ثابت
             return audit;
         });
 
@@ -79,18 +75,12 @@ class CreateAuditServiceTest {
         assertNotNull(response);
         assertEquals(1L, response.getId());
         assertEquals("Audit Name", response.getName());
-
-        assertNotNull(response.getCreatedAt());
-        assertNotEquals(java.time.LocalDateTime.now(), response.getCreatedAt());
+        assertEquals(java.time.LocalDateTime.of(2024, 11, 23, 21, 59), response.getCreatedAt());
 
         verify(saveRatingService, times(1)).saveAllRatings(anyList());
         verify(saveAuditService, times(1)).saveAudit(any(Audit.class));
     }
 
-    /**
-     * Tests the createAudit method when an invalid category ID is provided.
-     * Verifies that the method throws NonExistentAuditCategoryException.
-     */
     @Test
     public void testCreateAudit_invalidCategory() {
         NewAuditDTO newAuditDTO = new NewAuditDTO();
@@ -99,15 +89,12 @@ class CreateAuditServiceTest {
 
         when(findCategoryService.findCategoryById(1L)).thenReturn(Optional.empty());
 
-        // Check that NonExistentAuditCategoryException is thrown
         NonExistentAuditCategoryException exception = assertThrows(NonExistentAuditCategoryException.class, () -> createAuditService.createAudit(newAuditDTO));
         assertEquals("Category with id 1 not found", exception.getMessage());
 
-        // Ensure that save methods are not called
         verify(saveRatingService, never()).saveAllRatings(anyList());
         verify(saveAuditService, never()).saveAudit(any(Audit.class));
 
-        // Verify the findCategoryService is called correctly
         verify(findCategoryService, times(1)).findCategoryById(1L);
         verify(findCategoryService, never()).findCategoryById(2L);
     }

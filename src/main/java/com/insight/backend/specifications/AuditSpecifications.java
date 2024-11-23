@@ -1,10 +1,10 @@
 package com.insight.backend.specifications;
 
 import com.insight.backend.model.Audit;
-
 import org.springframework.data.jpa.domain.Specification;
 
 public class AuditSpecifications {
+
     /**
      * Specification to find an Audit by its name.
      *
@@ -36,12 +36,23 @@ public class AuditSpecifications {
     }
 
     /**
-     * Specification to find an Audit by its customer.
+     * Specification to find an Audit by its customer name containing a substring.
      *
      * @param customer the name of the customer
      * @return the specification to find the Audit
      */
     public static Specification<Audit> customerContains(String customer) {
-        return (root, query, criteriaBuilder) -> criteriaBuilder.like(root.get("customer"), "%" + customer + "%");
+        return (root, query, criteriaBuilder) -> 
+            criteriaBuilder.like(criteriaBuilder.lower(root.get("customer")), "%" + customer.toLowerCase() + "%");
+    }
+    
+
+    /**
+     * Specification to find all non-deleted Audits.
+     *
+     * @return the specification to find non-deleted Audits
+     */
+    public static Specification<Audit> isNotDeleted() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("deletedAt"));
     }
 }
