@@ -17,6 +17,13 @@ public class QuestionSpecifications {
         return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), category);
     }
 
+    /**
+     * Specification to find questions that are not deleted.
+     * root: Accesses fields of the "Question" entity.
+     * query: Represents the criteria query (unused here).
+     * criteriaBuilder: Builds the condition to check if "deletedAt" is null.
+     * @return a Specification to find questions where deletedAt is null.
+     */
     public static Specification<Question> isNotDeleted() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("DeletedAt"));
     }

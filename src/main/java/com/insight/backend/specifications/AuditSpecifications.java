@@ -52,4 +52,9 @@ public class AuditSpecifications {
     public static Specification<Audit> isNotDeleted() {
         return (root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("deletedAt"));
     }
+
+    public static Specification<Audit> isNotDeleted() {
+        return (root, query, criteriaBuilder) -> criteriaBuilder.isNull(root.get("deletedAt"));
+    }
+
 }
