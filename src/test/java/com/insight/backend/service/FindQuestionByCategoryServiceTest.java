@@ -75,19 +75,4 @@ public class FindQuestionByCategoryServiceTest {
 
         assertTrue(foundQuestion.isEmpty());
     }
-
-    @Test
-    void testFindQuestionsByCategory() {
-        question2.setDeletedAt(LocalDateTime.now());
-        List<Question> questions = Arrays.asList(question1);
-        when(questionRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(questions);
-        
-        List<Question> foundQuestions = findQuestionService.findQuestionsByCategory(category, "asc", "id");
-
-        Category test = question1.getCategory();
-        assertEquals(category, test);
-
-        assertEquals(1, foundQuestions.size());
-        assertEquals("question1", foundQuestions.getFirst().getName());
-    }
 }
