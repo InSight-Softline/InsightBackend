@@ -42,7 +42,7 @@ class ExportControllerTest {
         when(pdfGenerator.createPdf(auditId)).thenReturn(samplePdfStream);
 
         // Perform the GET request
-        mockMvc.perform(get("/api/v1/ratings/{auditId}/export", auditId)
+        mockMvc.perform(get("/api/v1/audits/{auditId}/export", auditId)
                         .contentType(MediaType.APPLICATION_PDF))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_PDF))
@@ -60,7 +60,7 @@ class ExportControllerTest {
         when(pdfGenerator.createPdf(auditId)).thenThrow(new RuntimeException("Error generating PDF"));
 
         // Perform the GET request and validate the response
-        mockMvc.perform(get("/api/v1/ratings/{auditId}/export", auditId)
+        mockMvc.perform(get("/api/v1/audits/{auditId}/export", auditId)
                         .contentType(MediaType.APPLICATION_PDF))
                 .andExpect(status().isInternalServerError());
 
