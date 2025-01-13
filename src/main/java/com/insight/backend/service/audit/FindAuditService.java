@@ -63,7 +63,9 @@ public class FindAuditService {
      */
     public List<Audit> findAllAudits(String customerName, String sortDirection, String sortBy) {
         Sort sort = Sort.by(sortDirection.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, sortBy);
-        Specification<Audit> specification = Specification.where(AuditSpecifications.isNotDeleted()).and(AuditSpecifications.customerContains(customerName));
+        Specification<Audit> specification = Specification.where(AuditSpecifications.isNotDeleted())
+                .and(AuditSpecifications.customerContains(customerName));
         return auditRepository.findAll(specification, sort);
     }
+    
 }

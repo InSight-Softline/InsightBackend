@@ -21,15 +21,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-
 /**
- * AuditsController is a REST controller that handles HTTP requests related to audits.
+ * AuditsController is a REST controller that handles HTTP requests related to
+ * audits.
  */
 @RestController
 public class AuditsController {
 
-    /** 
+    /**
      * The FindAuditService to use the service methods.
      */
     private final FindAuditService findAuditService;
@@ -55,7 +54,8 @@ public class AuditsController {
      * @param findAuditService the service to find audits
      */
     @Autowired
-    public AuditsController(FindAuditService findAuditService, CreateAuditService createAuditService, AuditProgressService auditProgressService, DeleteAuditService deleteAuditService) {
+    public AuditsController(FindAuditService findAuditService, CreateAuditService createAuditService,
+            AuditProgressService auditProgressService, DeleteAuditService deleteAuditService) {
         this.findAuditService = findAuditService;
         this.createAuditService = createAuditService;
         this.auditProgressService = auditProgressService;
@@ -70,11 +70,9 @@ public class AuditsController {
     @GetMapping("api/v1/audits")
     public ResponseEntity<List<Audit>> getAudits(
             @RequestParam(required = false, defaultValue = "") String customer,
-            @RequestParam(required = false, defaultValue = "asc") String sortDirection,
-            @RequestParam(required = false, defaultValue = "id") String sortBy
-    ) {
+            @RequestParam(required = false, defaultValue = "desc") String sortDirection,
+            @RequestParam(required = false, defaultValue = "createdAt") String sortBy) {
         List<Audit> response = findAuditService.findAllAudits(customer, sortDirection, sortBy);
-
         return ResponseEntity.ok(response);
     }
 
@@ -85,19 +83,20 @@ public class AuditsController {
      */
     @PostMapping("/api/v1/audits/new")
     public ResponseEntity<Object> postWithRequestBody(@Valid @RequestBody NewAuditDTO newAuditDTO) {
-       try {
-           AuditResponseDTO responseDTO = createAuditService.createAudit(newAuditDTO);
+        try {
+            AuditResponseDTO responseDTO = createAuditService.createAudit(newAuditDTO);
 
-           return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
-       }catch (IllegalArgumentException e){
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-       }
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     /**
      * GET requests for retrieving overall progress of one audit.
      *
-     * @return a ResponseEntity containing percentage of progress or an error if the audit is not found or deleted
+     * @return a ResponseEntity containing percentage of progress or an error if the
+     *         audit is not found or deleted
      */
     @GetMapping("/api/v1/audits/{auditId}/progress")
     public ResponseEntity<?> getAuditProgress(@PathVariable Long auditId) {
@@ -116,16 +115,17 @@ public class AuditsController {
         return ResponseEntity.ok(progressDTO);
     }
 
-
     /**
      * Handles DELETE requests for deleting an audit.
      *
-     * @param auditId    the ID of the audit to softdelete
-     * @return a ResponseEntity containing info about the delete operation in JSON format
+     * @param auditId the ID of the audit to softdelete
+     * @return a ResponseEntity containing info about the delete operation in JSON
+     *         format
      */
     @DeleteMapping("/api/v1/audits/{auditId}")
     public ResponseEntity<Void> softDeleteAudit(@PathVariable("auditId") Long auditId) {
-        Audit auditToDelete = findAuditService.findAuditById(auditId).orElseThrow(() -> new AuditNotFoundException(auditId));
+        Audit auditToDelete = findAuditService.findAuditById(auditId)
+                .orElseThrow(() -> new AuditNotFoundException(auditId));
         try {
             deleteAuditService.softDeleteAudit(auditToDelete);
         } catch (IllegalArgumentException e) {
