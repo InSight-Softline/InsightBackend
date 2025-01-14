@@ -3,7 +3,7 @@ package com.insight.backend.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import com.insight.backend.service.rating.PdfGenerator;
+import com.insight.backend.service.rating.PdfGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ExportController {
-    private final PdfGenerator pdfGenerator;
+    private final PdfGeneratorService pdfGeneratorService;
 
     /**
      * Constructs a ExportController with the specified services and mapper.
-     * @param pdfGenerator the mapper to convert ratings to pdf
+     * @param pdfGeneratorService the mapper to convert ratings to pdf
      */
     @Autowired
-    public ExportController(PdfGenerator pdfGenerator) {
-        this.pdfGenerator = pdfGenerator;
+    public ExportController(PdfGeneratorService pdfGeneratorService) {
+        this.pdfGeneratorService = pdfGeneratorService;
     }
 
     /**
@@ -37,7 +37,7 @@ public class ExportController {
         try {
 
             // Generate PDF
-            ByteArrayInputStream bis = pdfGenerator.createPdf(auditId);
+            ByteArrayInputStream bis = pdfGeneratorService.createPdf(auditId);
 
             // Set HTTP headers
             HttpHeaders headers = new HttpHeaders();

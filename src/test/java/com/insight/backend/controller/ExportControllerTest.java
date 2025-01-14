@@ -1,6 +1,12 @@
 package com.insight.backend.controller;
 
-import com.insight.backend.service.rating.PdfGenerator;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.io.ByteArrayInputStream;
+
+import com.insight.backend.service.rating.PdfGeneratorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,12 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.io.ByteArrayInputStream;
-
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @WebMvcTest(ExportController.class)
 @ExtendWith(SpringExtension.class)
 class ExportControllerTest {
@@ -25,7 +25,7 @@ class ExportControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private PdfGenerator pdfGenerator;
+    private PdfGeneratorService pdfGeneratorService;
 
     private ByteArrayInputStream samplePdfStream;
 
@@ -39,7 +39,7 @@ class ExportControllerTest {
         long auditId = 1L;
 
         // Mock PdfGenerator to return the sample PDF stream
-        when(pdfGenerator.createPdf(auditId)).thenReturn(samplePdfStream);
+        when(pdfGeneratorService.createPdf(auditId)).thenReturn(samplePdfStream);
 
         // Perform the GET request
         mockMvc.perform(get("/api/v1/audits/{auditId}/export", auditId)
@@ -49,7 +49,7 @@ class ExportControllerTest {
                 .andExpect(header().string("Content-Disposition", "inline; filename=Report.pdf"));
 
         // Verify that PdfGenerator's method was called once
-        verify(pdfGenerator, times(1)).createPdf(auditId);
+        verify(pdfGeneratorService, times(1)).createPdf(auditId);
     }
 
     @Test
@@ -57,7 +57,7 @@ class ExportControllerTest {
         long auditId = 1L;
 
         // Mock PdfGenerator to throw an exception
-        when(pdfGenerator.createPdf(auditId)).thenThrow(new RuntimeException("Error generating PDF"));
+        when(pdfGeneratorService.createPdf(auditId)).thenThrow(new RuntimeException("Error generating PDF"));
 
         // Perform the GET request and validate the response
         mockMvc.perform(get("/api/v1/audits/{auditId}/export", auditId)
@@ -65,6 +65,6 @@ class ExportControllerTest {
                 .andExpect(status().isInternalServerError());
 
         // Verify that PdfGenerator's method was called once
-        verify(pdfGenerator, times(1)).createPdf(auditId);
+        verify(pdfGeneratorService, times(1)).createPdf(auditId);
     }
 }
