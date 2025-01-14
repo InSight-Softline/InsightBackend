@@ -39,6 +39,56 @@ docker compose exec -it mssql /opt/mssql-tools18/bin/sqlcmd -S mssql -U sa -P 'Y
 - GET request to http://localhost:8080/api/v1/database/seed
 - this will **add** dummy data to the database
 
+== Add environment variables
+
+= Setting Up Environment Variables
+
+Windows:
+
+Open Settings and type "Environment Variables" in the search bar.
+Click on "Edit environment variables for this account."
+In the new window, click "New..."
+Enter the name and value for the new environment variable.
+Click "OK."
+
+MacOS:
+
+Open the Terminal.
+Edit the shell configuration file:
+For zsh (default from macOS Catalina): nano ~/.zshrc
+For bash: nano ~/.bash_profile
+Add the environment variable: export MY_APP_VARIABLE=value123
+Save the file and reload it:
+----
+source ~/.bash_profile (for bash)
+----
+
+Verification:
+
+echo $MY_APP_VARIABLE
+
+Linux:
+
+Edit the shell configuration file: This is usually ~/.bashrc or ~/.zshrc (depending on the shell used):
+----
+nano ~/.bashrc
+----
+Add the environment variable: export MY_APP_VARIABLE=value123
+Save the file and reload it:
+----
+source ~/.bashrc (for bash)
+----
+
+Verification:
+----
+echo $MY_APP_VARIABLE
+----
+Restart the computer
+
+= Using Environment Variables:
+
+In the project, open the "application.properties" file, and instead of using hardcoded values, input the environment variable with "${VARIABLE_NAME}".
+
 == Running the application
 
 Entweder über IDE Integration oder im Terminal:
