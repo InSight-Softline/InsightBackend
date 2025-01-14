@@ -1,8 +1,8 @@
 spring.application.name=backend
 spring.jpa.properties.hibernate.format_sql=true
-spring.datasource.url=jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;databaseName=insight
-spring.datasource.username=sa
-spring.datasource.password=YourStrong@Passw0rd
+spring.datasource.url=${INSIGHT_DB_URL}
+spring.datasource.username=${INSIGHT_DB_USER}
+spring.datasource.password=${INSIGHT_DB_PW}
 
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.SQLServerDialect
 spring.jpa.hibernate.ddl-auto=update
