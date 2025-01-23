@@ -71,7 +71,7 @@ docker-release-job:
     
     - docker build --build-arg JAR_FILE=build/libs/*.jar -t gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend .
     - docker tag gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest-$PIPELINE_TAG
-    - docker build --build-arg JAR_FILE=build/libs/*.jar -t ghcr.io/syrimx/softline-insight/insightbackend/backend:latest .
+    - docker build --build-arg JAR_FILE=build/libs/*.jar -t ghcr.io/softline-insight/insightbackend/backend:latest .
 
     - docker push ghcr.io/insight-softline/insightbackend:latest    
     #- docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest
