@@ -45,8 +45,8 @@ backend-build-job:
   image: gradle:8-jdk21
   stage: build
   environment: production
-  rules:
-    - if: $CI_COMMIT_REF_NAME == "main"
+  #rules:
+  #  - if: $CI_COMMIT_REF_NAME == "main"
   script:
     - echo "Building the application..."
     - ./gradlew bootJar
@@ -61,8 +61,8 @@ docker-release-job:
   stage: release
   dependencies:
     - backend-build-job
-  rules:
-    - if: $CI_COMMIT_REF_NAME == "main"
+  #rules:
+  #  - if: $CI_COMMIT_REF_NAME == "main"
   script:
     - echo "👩‍💻 Building & Deploying Docker Image..."
     - docker logout
