@@ -56,7 +56,7 @@ backend-build-job:
       - build/libs/*.jar
 
 # RELEASE STAGE
-docker-deploy-job:
+docker-release-job:
   image: docker:20
   stage: release
   dependencies:
@@ -64,17 +64,20 @@ docker-deploy-job:
   rules:
     - if: $CI_COMMIT_REF_NAME == "main"
   script:
-    - echo "Building & Deploying Docker Image..."
+    - echo "👩‍💻 Building & Deploying Docker Image..."
     - docker logout
     - echo -n "${CI_REGISTRY_PASSWORD}" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
-
+    - echo $CR_PAT | docker login ghcr.io -u Syrimx --password-stdin
+    
     - docker build --build-arg JAR_FILE=build/libs/*.jar -t gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend .
     - docker tag gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest-$PIPELINE_TAG
-    - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest
-    - docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest-$PIPELINE_TAG
+    - docker build --build-arg JAR_FILE=build/libs/*.jar -t ghcr.io/syrimx/softline-insight/insightbackend/backend:latest .
+
+    - docker push ghcr.io/insight-softline/insightbackend:latest    
+    #- docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest
+    #- docker push gitlab.dit.htwk-leipzig.de:5050/projekt2024-s-audit-tool/backend:latest-$PIPELINE_TAG
 
     - echo "[*] Image Build & Deployment was executed."
-
 #DEPLOYMENT STAGE
 publish-job:
   stage: deploy
