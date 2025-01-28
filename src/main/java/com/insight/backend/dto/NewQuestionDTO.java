@@ -6,20 +6,6 @@ import jakarta.validation.constraints.Size;
 
 /**
  * Data Transfer Object equivalent to JSON object of GET /api/v1/questions/new.
- * model specification
- *
- * @Id
- * @GeneratedValue(strategy = GenerationType.AUTO)
- * private Long id;
- * @Column(nullable = false)
- * private String name;
- * @JsonIgnore
- * @OneToMany(mappedBy = "question")
- * private Set<Rating> rating;
- * @ManyToOne
- * @JoinColumn(name="category_id", nullable=false)
- * private Category category;
- * private LocalDateTime DeletedAt;
  */
 public class NewQuestionDTO {
 
