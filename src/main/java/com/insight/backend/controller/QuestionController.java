@@ -30,16 +30,15 @@ public class QuestionController {
     private final FindCategoryService findCategoryService;
     private final CreateQuestionService createQuestionService;
 
-     /**
+    /**
      * Constructs a new QuestionController with the DeleteQuestionService and
      * FindQuestionsByCategoryService
-     * 
+     *
      * @param deleteQuestionService the service to delete a question
-     * 
      */
     @Autowired
-    public QuestionController(DeleteQuestionService deleteQuestionService, CreateQuestionService createQuestionService, 
-                               FindQuestionService findQuestionService, FindCategoryService findCategoryService) {
+    public QuestionController(DeleteQuestionService deleteQuestionService, CreateQuestionService createQuestionService,
+                              FindQuestionService findQuestionService, FindCategoryService findCategoryService) {
         this.deleteQuestionService = deleteQuestionService;
         this.findQuestionService = findQuestionService;
         this.findCategoryService = findCategoryService;
@@ -49,7 +48,7 @@ public class QuestionController {
     /**
      * Handles DELETE requests for deleting a Question.
      *
-     * @param questionID    the ID of the question to be deleted
+     * @param questionID the ID of the question to be deleted
      * @return a ResponseEntity containing a String confirming the deletion
      */
     @DeleteMapping("/api/v1/questions/{questionID}")

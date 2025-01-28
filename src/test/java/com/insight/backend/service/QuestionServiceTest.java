@@ -18,7 +18,7 @@ public class QuestionServiceTest {
 
     @Mock
     private QuestionRepository questionRepository;
-    
+
     @InjectMocks
     private SaveQuestionService saveQuestionService;
     private Question question;
@@ -44,7 +44,7 @@ public class QuestionServiceTest {
         Question savedQuestion = saveQuestionService.saveQuestion(question);
 
         verify(questionRepository, times(1)).saveAndFlush(question);
-        
+
         assertNotNull(savedQuestion);
         assertEquals(question, savedQuestion);
     }

@@ -18,7 +18,7 @@ public class Question {
     @OneToMany(mappedBy = "question")
     private Set<Rating> rating;
     @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
     private LocalDateTime deletedAt;
 
@@ -64,11 +64,11 @@ public class Question {
         this.id = id;
     }
 
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
     public LocalDateTime getDeletedAt() {
         return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,7 +36,8 @@ public class AuditsControllerTestHttpDelete {
     private DeleteAuditService deleteAuditService;
     @MockBean
     private AuditProgressService auditProgressService;
-    
+    private Audit audit;
+
     @BeforeEach
     public void setUp() {
         audit = new Audit();
@@ -44,15 +46,13 @@ public class AuditsControllerTestHttpDelete {
         audit.setName("AuditToDelete");
     }
 
-    private Audit audit;
-
     @Test
     public void testSoftDeleteExistingAudit() throws Exception {
-            // Mock the service to return the Audit
-            when(findAuditService.findAuditById(1L)).thenReturn(Optional.of(audit));
+        // Mock the service to return the Audit
+        when(findAuditService.findAuditById(1L)).thenReturn(Optional.of(audit));
 
-            // Perform the Delete Request with java spring boot delete
-            mockMvc.perform(delete("/api/v1/audits/{auditId}", 1L))
+        // Perform the Delete Request with java spring boot delete
+        mockMvc.perform(delete("/api/v1/audits/{auditId}", 1L))
                 .andExpect(status().isNoContent())
                 .andReturn();
 

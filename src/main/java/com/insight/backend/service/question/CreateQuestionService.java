@@ -40,37 +40,37 @@ public class CreateQuestionService {
      *
      * @param newQuestionDTO das DTO mit den Details der neuen Frage
      * @return ein QuestionResponseDTO mit den Details der erstellten Frage
-     * @throws CategoryNotFoundException, wenn die Kategorie-ID ungültig ist
+     * @throws CategoryNotFoundException,      wenn die Kategorie-ID ungültig ist
      * @throws QuestionAlreadyExistsException, wenn eine Frage mit demselben Namen existiert
      */
     public QuestionResponseDTO createQuestion(NewQuestionDTO newQuestionDTO) {
         // Frage-Objekt initialisieren
         Question question = new Question();
         question.setName(newQuestionDTO.getName());
-    
+
         // Überprüfen, ob der Frage-Name bereits existiert
         List<Question> existingQuestions = this.findQuestionService
                 .findQuestionsByName(newQuestionDTO.getName(), "desc", "name");
-    
+
         if (!existingQuestions.isEmpty()) {
             throw new QuestionAlreadyExistsException("Question already exists.");
         }
-    
+
         // Kategorie anhand der ID abrufen
         Category category = this.findCategoryService
                 .findCategoryById(newQuestionDTO.getCategoryId())
                 .orElseThrow(() -> new CategoryNotFoundException(newQuestionDTO.getCategoryId()));
-    
+
         question.setCategory(category);
 
         // Frage speichern
         Question savedQuestion = this.saveQuestionService.saveQuestion(question);
-    
+
         // Antwort-DTO erstellen
         QuestionResponseDTO responseDTO = new QuestionResponseDTO();
         responseDTO.setId(savedQuestion.getId());
         responseDTO.setName(savedQuestion.getName());
-    
+
         return responseDTO;
     }
 }

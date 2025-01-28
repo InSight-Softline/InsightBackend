@@ -28,7 +28,7 @@ public class DatabaseSeederService {
     }
 
     public void seedDatabaseFromFiles() throws Exception {
-        String categoryPath = "fixtures/dummy-categories.csv"; 
+        String categoryPath = "fixtures/dummy-categories.csv";
         List<String[]> categories = readAllLinesFromCsv(categoryPath);
 
         Map<Integer, Category> categoryMap = new java.util.HashMap<>(Map.of());

@@ -15,6 +15,7 @@ public class CategorySpecifications {
      * root: Accesses fields of the "Category" entity.
      * query: Represents the criteria query (unused here).
      * criteriaBuilder: Builds the condition to check if "deletedAt" is null.
+     *
      * @return a Specification to find categories where deletedAt is null.
      */
     public static Specification<Category> isNotDeleted() {

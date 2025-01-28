@@ -16,6 +16,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(QuestionController.class)
 @ExtendWith(SpringExtension.class)
 public class QuestionControllerTestHttpGet {
-    
+
     /**
      * MockMvc instance for HTTP request mocking
      */
@@ -79,11 +80,11 @@ public class QuestionControllerTestHttpGet {
     }
 
     @Test
-    public void testGetQuestionsByCategory() throws Exception  {
+    public void testGetQuestionsByCategory() throws Exception {
         List<Question> questions = Arrays.asList(question1, question2);
         when(findQuestionService.findQuestionsByCategory(category1, "asc", "id")).thenReturn(questions);
         when(findCategoryService.findCategoryById(3L)).thenReturn(Optional.of(category1));
-        
+
         mockMvc.perform(get("/api/v1/categories/3/questions"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

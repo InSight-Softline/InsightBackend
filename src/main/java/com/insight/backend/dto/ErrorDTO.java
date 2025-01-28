@@ -19,10 +19,12 @@ public class ErrorDTO {
     /**
      * No-arg constructor (required for frameworks)
      */
-    public ErrorDTO() {}
+    public ErrorDTO() {
+    }
 
     /**
      * Constructor to initialize error message
+     *
      * @param error error message
      */
     public ErrorDTO(String error) {
@@ -31,6 +33,7 @@ public class ErrorDTO {
 
     /**
      * Getter for error message
+     *
      * @return error message
      */
     public String getError() {
@@ -39,6 +42,7 @@ public class ErrorDTO {
 
     /**
      * Setter for error message
+     *
      * @param error error message
      */
     public void setError(String error) {

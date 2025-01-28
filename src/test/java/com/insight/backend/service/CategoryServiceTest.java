@@ -37,7 +37,7 @@ public class CategoryServiceTest {
         when(categoryRepository.saveAndFlush(category)).thenReturn(category);
 
         Category savedCategory = saveCategoryService.saveCategory(category);
-       
+
         verify(categoryRepository, times(1)).saveAndFlush(category);
 
         assertNotNull(savedCategory);

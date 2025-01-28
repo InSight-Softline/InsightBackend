@@ -7,5 +7,5 @@ package com.insight.backend.exception;
 public class AuditDeletedException extends RuntimeException {
     public AuditDeletedException(Long auditId) {
         super("Audit with id " + auditId + " has been deleted");
-  }
+    }
 }

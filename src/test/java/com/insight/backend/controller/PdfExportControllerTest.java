@@ -7,6 +7,7 @@ import com.insight.backend.service.rating.PdfGeneratorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -63,8 +64,8 @@ class PdfExportControllerTest {
         // Perform the GET request and validate the response
         mockMvc.perform(get("/api/v1/audits/{auditId}/export", auditId)
                         .contentType(MediaType.APPLICATION_PDF))
-                        .andExpect(status().isInternalServerError())
-                        .andExpect(jsonPath("$.message").value("Error while generating PDF: test"));
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.message").value("Error while generating PDF: test"));
 
         // Verify that PdfGenerator's method was called once
         verify(pdfGeneratorService, times(1)).createPdf(auditId);

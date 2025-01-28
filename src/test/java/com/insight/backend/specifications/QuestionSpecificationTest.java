@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
+
 import org.springframework.data.jpa.domain.Specification;
 
 import com.insight.backend.model.Category;
@@ -16,7 +17,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
 public class QuestionSpecificationTest {
-        
+
     @Test
     void inCategory() {
         Category category = new Category();
@@ -39,7 +40,7 @@ public class QuestionSpecificationTest {
         Root<Question> root = mock(Root.class);
 
         spec.toPredicate(root, query, cb);
-        
+
         verify(cb).isNull(root.get("deletedAt"));
     }
 }

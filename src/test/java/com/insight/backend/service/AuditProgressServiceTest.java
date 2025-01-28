@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Test class for the {@link AuditProgressService}.
- *
+ * <p>
  * This test suite verifies the behavior of the AuditProgressService class,
  * which is responsible for calculating the progress of an audit.
  * The progress includes overall progress, per-category progress,
@@ -90,7 +90,7 @@ class AuditProgressServiceTest {
 
     /**
      * Tests the calculation of audit progress with valid ratings data.
-     *
+     * <p>
      * Verifies that the progress is calculated correctly, including overall progress,
      * per-category progress, and question counts by ratings.
      */
@@ -118,7 +118,7 @@ class AuditProgressServiceTest {
 
     /**
      * Tests the calculation of audit progress when there are no ratings.
-     *
+     * <p>
      * Verifies that the progress is correctly set to 0 for all metrics.
      */
     @Test
@@ -133,7 +133,7 @@ class AuditProgressServiceTest {
 
     /**
      * Tests the calculation of audit progress with null 'NA' values in ratings.
-     *
+     * <p>
      * Verifies that the progress is calculated correctly, including overall progress,
      * per-category progress, and question counts by ratings.
      */

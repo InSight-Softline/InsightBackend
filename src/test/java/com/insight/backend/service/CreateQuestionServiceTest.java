@@ -67,7 +67,7 @@ public class CreateQuestionServiceTest {
             question.setId(1L);
             return question;
         });
-        
+
         // Act
         QuestionResponseDTO response = createQuestionService.createQuestion(newQuestionDTO);
 
@@ -106,11 +106,12 @@ public class CreateQuestionServiceTest {
         verify(findCategoryService, times(0)).findCategoryById(anyLong());
         verify(saveQuestionService, times(0)).saveQuestion(any(Question.class));
     }
+
     /**
      * Tests creating a question with an invalid category ID.
      */
     @Test
-    public void testCreateQuestion_invalidCategory(){
+    public void testCreateQuestion_invalidCategory() {
         // Arrange
         NewQuestionDTO invalidCategoryDTO = new NewQuestionDTO();
         invalidCategoryDTO.setName("Invalid Category Question");

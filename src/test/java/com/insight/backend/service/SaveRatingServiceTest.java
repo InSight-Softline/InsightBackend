@@ -39,17 +39,17 @@ public class SaveRatingServiceTest {
     @BeforeEach
     void setUp() {
         rating1 = new Rating();
-        rating1.setId((long)1);
+        rating1.setId((long) 1);
         rating1.setComment("This is the first comment");
         rating1.setPoints(5);
 
         rating2 = new Rating();
-        rating2.setId((long)2);
+        rating2.setId((long) 2);
         rating2.setComment("This is the second comment");
         rating2.setPoints(4);
 
         rating3 = new Rating();
-        rating3.setId((long)3);
+        rating3.setId((long) 3);
         rating3.setComment("This is the third comment");
         rating3.setPoints(3);
 
@@ -68,7 +68,7 @@ public class SaveRatingServiceTest {
         Rating savedRating = saveRatingService.saveRating(rating1);
 
         verify(ratingRepository, times(1)).saveAndFlush(rating1);
-        
+
         assertNotNull(savedRating);
         assertEquals(rating1, savedRating);
     }
@@ -91,7 +91,7 @@ public class SaveRatingServiceTest {
         List<Rating> savedRatings = saveRatingService.saveAllRatings(ratingList);
 
         verify(ratingRepository, times(1)).saveAllAndFlush(ratingList);
-        
+
         assertNotNull(savedRatings);
         assertEquals(ratingList, savedRatings);
     }

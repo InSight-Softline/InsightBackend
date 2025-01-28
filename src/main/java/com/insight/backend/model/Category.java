@@ -20,7 +20,7 @@ public class Category {
     private Long id;
 
     @Column(nullable = false)
-    private String name; 
+    private String name;
 
     @JsonIgnore
     @OneToMany(mappedBy = "category")
@@ -31,7 +31,7 @@ public class Category {
     /**
      * Constructor for creating a new Category with specified name and questions.
      *
-     * @param name the name of the category.
+     * @param name      the name of the category.
      * @param questions the set of questions associated with the category.
      */
     public Category(String name, Set<Question> questions) {
@@ -119,12 +119,13 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
     /**
      * Checks if the category is deleted based on the deletedAt timestamp.
      *
      * @return true if the category is deleted, false otherwise.
      */
-    public boolean isDeleted(){
-        return deletedAt !=null; 
+    public boolean isDeleted() {
+        return deletedAt != null;
     }
 }

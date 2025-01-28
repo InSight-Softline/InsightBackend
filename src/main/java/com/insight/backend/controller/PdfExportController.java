@@ -19,6 +19,7 @@ public class PdfExportController {
 
     /**
      * Constructs a ExportController with the specified services and mapper.
+     *
      * @param pdfGeneratorService the mapper to convert ratings to pdf
      */
     @Autowired

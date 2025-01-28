@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SaveAuditService {
-    
-    
+
+
     private final AuditRepository auditRepository;
 
     public SaveAuditService(AuditRepository auditRepository) {
@@ -20,8 +20,8 @@ public class SaveAuditService {
      * @param audit to be saved
      * @return saved audit
      */
-    public Audit saveAudit(Audit audit){
-        if(audit == null) return null;
+    public Audit saveAudit(Audit audit) {
+        if (audit == null) return null;
         return auditRepository.saveAndFlush(audit);
     }
 }

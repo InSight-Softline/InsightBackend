@@ -46,6 +46,12 @@ class RatingControllerTest {
     private FindAuditService findAuditService;
     @MockBean
     private RatingMapper ratingMapper;
+    private Rating rating1;
+    private Rating rating2;
+    private Question question1;
+    private Question question2;
+    private Category category1;
+    private Audit audit1;
 
     @BeforeEach
     public void setUp() {
@@ -83,13 +89,6 @@ class RatingControllerTest {
         audit1.getRatings().add(rating1);
         audit1.getRatings().add(rating2);
     }
-
-    private Rating rating1;
-    private Rating rating2;
-    private Question question1;
-    private Question question2;
-    private Category category1;
-    private Audit audit1;
 
     @Test
     public void testGetRatingsAuditFound() throws Exception {

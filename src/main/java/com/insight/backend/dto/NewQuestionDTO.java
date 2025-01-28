@@ -7,18 +7,19 @@ import jakarta.validation.constraints.Size;
 /**
  * Data Transfer Object equivalent to JSON object of GET /api/v1/questions/new.
  * model specification
- *  @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(nullable = false)
-    private String name;
-    @JsonIgnore
-    @OneToMany(mappedBy = "question")
-    private Set<Rating> rating;
-    @ManyToOne
-    @JoinColumn(name="category_id", nullable=false)
-    private Category category;
-    private LocalDateTime DeletedAt;
+ *
+ * @Id
+ * @GeneratedValue(strategy = GenerationType.AUTO)
+ * private Long id;
+ * @Column(nullable = false)
+ * private String name;
+ * @JsonIgnore
+ * @OneToMany(mappedBy = "question")
+ * private Set<Rating> rating;
+ * @ManyToOne
+ * @JoinColumn(name="category_id", nullable=false)
+ * private Category category;
+ * private LocalDateTime DeletedAt;
  */
 public class NewQuestionDTO {
 
@@ -37,7 +38,7 @@ public class NewQuestionDTO {
 
     /**
      * Gets the name of the question.
-     * 
+     *
      * @return the name of the question
      */
     public String getName() {
@@ -46,7 +47,7 @@ public class NewQuestionDTO {
 
     /**
      * Sets the name of the question.
-     * 
+     *
      * @param name the name to set
      */
     public void setName(String name) {
@@ -55,7 +56,7 @@ public class NewQuestionDTO {
 
     /**
      * Gets the ID of the category to which the question belongs.
-     * 
+     *
      * @return the category ID
      */
     public Long getCategoryId() {
@@ -64,11 +65,11 @@ public class NewQuestionDTO {
 
     /**
      * Sets the ID of the category to which the question belongs.
-     * 
+     *
      * @param categoryId the category ID to set
      */
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
-    
+
 }

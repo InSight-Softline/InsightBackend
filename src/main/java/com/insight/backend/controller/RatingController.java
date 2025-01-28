@@ -35,11 +35,11 @@ public class RatingController {
     /**
      * Constructs a RatingController with the specified services and mapper.
      *
-     * @param objectMapper the object mapper for JSON processing
+     * @param objectMapper      the object mapper for JSON processing
      * @param findRatingService the service to find ratings
      * @param saveRatingService the service to save ratings
-     * @param findAuditService the service to find audits
-     * @param ratingMapper the mapper to convert Rating to RatingDTO
+     * @param findAuditService  the service to find audits
+     * @param ratingMapper      the mapper to convert Rating to RatingDTO
      */
     @Autowired
     public RatingController(ObjectMapper objectMapper, FindRatingService findRatingService, SaveRatingService saveRatingService, FindAuditService findAuditService, RatingMapper ratingMapper) {
@@ -53,8 +53,8 @@ public class RatingController {
     /**
      * Handles PATCH requests for updating a rating.
      *
-     * @param ratingId    the ID of the rating to update
-     * @param patch the JSON patch containing the changes to apply
+     * @param ratingId the ID of the rating to update
+     * @param patch    the JSON patch containing the changes to apply
      * @return a ResponseEntity containing the updated rating in JSON format or an error message if the rating ID does not exist
      */
     @PatchMapping("/api/v1/ratings/{ratingId}")

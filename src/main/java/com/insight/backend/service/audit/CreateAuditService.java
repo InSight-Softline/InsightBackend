@@ -16,6 +16,7 @@ import com.insight.backend.service.category.FindCategoryService;
 import com.insight.backend.service.rating.SaveRatingService;
 
 import org.springframework.stereotype.Service;
+
 /**
  * Service class for creating audits.
  */
@@ -30,8 +31,8 @@ public class CreateAuditService {
      * Constructs a CreateAuditService with the specified services.
      *
      * @param findCategoryService the service to check category existence
-     * @param saveAuditService the service to save audits
-     * @param saveRatingService the service to save a list of ratings
+     * @param saveAuditService    the service to save audits
+     * @param saveRatingService   the service to save a list of ratings
      */
     public CreateAuditService(FindCategoryService findCategoryService, SaveAuditService saveAuditService, SaveRatingService saveRatingService) {
         this.findCategoryService = findCategoryService;
@@ -61,7 +62,7 @@ public class CreateAuditService {
 
         // Add questions to the audit and create ratings for each question
         for (Long categoryId : newAuditDTO.getCategories()) {
-            Category category = findCategoryService.findCategoryById(categoryId).orElseThrow(()-> new NonExistentAuditCategoryException(categoryId));
+            Category category = findCategoryService.findCategoryById(categoryId).orElseThrow(() -> new NonExistentAuditCategoryException(categoryId));
 
             for (Question question : category.getQuestions()) {
                 Rating rating = new Rating();

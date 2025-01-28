@@ -23,18 +23,19 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class CategoryController {
-    /** 
+    /**
      * The FindCategoryService to use the service methods.
      */
     private final FindCategoryService findCategoryService;
     private final CreateCategoryService createCategoryService;
     private final DeleteCategoryService deleteCategoryService;
+
     /**
      * Constructs a new CategoryController with the specified FindCategoryService.
-     * 
-     * @param findCategoryService the service to find categories
+     *
+     * @param findCategoryService   the service to find categories
      * @param createCategoryService the service to create categories
-     * @param deleteCategoryService the service to soft delete categories 
+     * @param deleteCategoryService the service to soft delete categories
      */
     @Autowired
     public CategoryController(FindCategoryService findCategoryService, CreateCategoryService createCategoryService, DeleteCategoryService deleteCategoryService) {
@@ -45,13 +46,13 @@ public class CategoryController {
 
     /**
      * GET requests for retrieving all categories.
-     * 
+     *
      * @return a ResponseEntity containing a list of Category objects
      */
     @GetMapping("/api/v1/categories")
     public ResponseEntity<List<Category>> getCategory() {
         List<Category> response = findCategoryService.findAllCategories();
-        
+
         return ResponseEntity.ok(response);
     }
 
@@ -78,14 +79,14 @@ public class CategoryController {
     @DeleteMapping("/categories/{categoryID}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryID) {
         Category category = findCategoryService.findCategoryById(categoryID)
-            .orElseThrow(() -> new CategoryNotFoundException(categoryID));
-    
+                .orElseThrow(() -> new CategoryNotFoundException(categoryID));
+
         try {
             deleteCategoryService.softDeleteCategory(category);
         } catch (IllegalArgumentException e) {
             throw new CategoryDeletionException(categoryID);
         }
-    
+
         return ResponseEntity.noContent().build();
     }
 

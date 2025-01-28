@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SaveAuditServiceTest {
-    
+
     @Mock
     private AuditRepository auditRepository;
 
@@ -25,7 +25,7 @@ public class SaveAuditServiceTest {
     private Audit audit;
 
     /*
-    * Test data to create before execution of and be used in single test method
+     * Test data to create before execution of and be used in single test method
      */
     @BeforeEach
     public void setUp() {
@@ -36,8 +36,8 @@ public class SaveAuditServiceTest {
     }
 
     /*
-    * Test method for saving audit, compares audit to be saved with actual saved audit
-    */
+     * Test method for saving audit, compares audit to be saved with actual saved audit
+     */
     @Test
     public void saveAuditTest() {
         when(auditRepository.saveAndFlush(audit)).thenReturn(audit);

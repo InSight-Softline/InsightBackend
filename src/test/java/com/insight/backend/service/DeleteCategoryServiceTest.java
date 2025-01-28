@@ -13,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.insight.backend.model.Category;
@@ -30,9 +32,9 @@ public class DeleteCategoryServiceTest {
     @InjectMocks
     private DeleteCategoryService deleteCategoryService;
 
-    private Category category;    
+    private Category category;
     private Category deletedCategory;
-    
+
     /**
      * Initialisiert Testdaten vor jedem Test.
      */
@@ -43,7 +45,7 @@ public class DeleteCategoryServiceTest {
         category.setName("Test Category");
         category.setDeletedAt(null);
         category.setQuestions(Collections.emptySet());
-    
+
         deletedCategory = new Category();
         deletedCategory.setId(2L);
         deletedCategory.setName("Deleted Category");

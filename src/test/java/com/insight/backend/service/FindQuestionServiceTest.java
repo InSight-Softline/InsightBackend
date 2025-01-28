@@ -16,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class FindQuestionServiceTest {
-    
+
     @Mock
     private QuestionRepository questionRepository;
 
@@ -46,7 +47,7 @@ public class FindQuestionServiceTest {
         question2 = new Question();
         question2.setId(2L);
         question2.setName("question2");
-        
+
         category = new Category();
         category.setId(3L);
         category.setName("Category");
@@ -81,7 +82,7 @@ public class FindQuestionServiceTest {
         question2.setDeletedAt(LocalDateTime.now());
         List<Question> questions = Arrays.asList(question1);
         when(questionRepository.findAll(any(Specification.class), any(Sort.class))).thenReturn(questions);
-        
+
         List<Question> foundQuestions = findQuestionService.findQuestionsByCategory(category, "asc", "id");
 
         Category test = question1.getCategory();

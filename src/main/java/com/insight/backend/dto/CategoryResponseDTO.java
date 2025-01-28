@@ -14,7 +14,7 @@ public class CategoryResponseDTO {
     /**
      * Constructor to create a new CategoryResponseDTO object.
      *
-     * @param id the unique identifier for the category
+     * @param id   the unique identifier for the category
      * @param name the name of the category
      */
     public CategoryResponseDTO(Long id, String name) {

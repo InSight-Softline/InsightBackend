@@ -29,6 +29,6 @@ public class DeleteQuestionService {
         question.setDeletedAt(LocalDateTime.now());
         questionRepository.saveAndFlush(question);
     }
-    
+
 
 }

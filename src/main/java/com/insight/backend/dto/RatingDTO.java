@@ -18,7 +18,7 @@ public class RatingDTO {
      * Category the rating is in.
      */
     @NotNull(message = "Category can not be null")
-    private Category category; 
+    private Category category;
 
     /**
      * The question being rated.
@@ -149,7 +149,7 @@ public class RatingDTO {
 
     /**
      * Setter method for not-applicable-flag.
-     * 
+     *
      * @param nA the not-applicable-flag
      */
     public void setnA(Boolean nA) {

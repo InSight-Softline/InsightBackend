@@ -109,7 +109,7 @@ public class DatabaseSeederServiceTest {
     /**
      * Private helper method to determine the expected number of lines in the CSV file.
      */
-    private int getExpectedNumberOfLines(String filePath) throws Exception {  
+    private int getExpectedNumberOfLines(String filePath) throws Exception {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream(filePath)) {
             Reader reader = new BufferedReader(new InputStreamReader(in));
 

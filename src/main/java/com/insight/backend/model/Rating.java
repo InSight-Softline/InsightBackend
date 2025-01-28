@@ -15,10 +15,10 @@ public class Rating {
     @Max(5)
     private Integer points;
     @ManyToOne
-    @JoinColumn(name="audit_id", nullable=false)
+    @JoinColumn(name = "audit_id", nullable = false)
     private Audit audit;
     @ManyToOne
-    @JoinColumn(name="question_id", nullable=false)
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
 
@@ -34,36 +34,36 @@ public class Rating {
 
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNa(Boolean na) {
-        isNa = na;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public void setPoints(@Min(0) @Max(5) Integer points) {
-        this.points = points;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Boolean getNa() {
         return isNa;
     }
 
+    public void setNa(Boolean na) {
+        isNa = na;
+    }
+
     public String getComment() {
         return comment;
     }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public @Min(0) @Max(5) Integer getPoints() {
         return points;
+    }
+
+    public void setPoints(@Min(0) @Max(5) Integer points) {
+        this.points = points;
     }
 
     public Question getQuestion() {

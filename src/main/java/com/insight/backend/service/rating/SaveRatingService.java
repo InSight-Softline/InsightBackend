@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class SaveRatingService {
 
-    /** 
+    /**
      * The RatingRepository to use the JpaRepository methods.
      */
     final RatingRepository ratingRepository;
 
     /**
      * Constructs a new RatingRepository with the specified RatingRepository.
-     * 
+     *
      * @param ratingRepository the repository to save ratings
      */
     public SaveRatingService(RatingRepository ratingRepository) {
@@ -29,7 +29,7 @@ public class SaveRatingService {
 
     /**
      * Stores a single rating object in the database.
-     * 
+     *
      * @param rating the rating objekt to be saved.
      * @return the saved rating object, or null if the input question is null
      */
@@ -39,11 +39,11 @@ public class SaveRatingService {
     }
 
     /**
-    * Stores multiple rating objects in the database.
-    * 
-    * @param ratingList the list of rating objects to be saved.
-    * @return the saved list of rating objects, or null if the input question is null
-    */
+     * Stores multiple rating objects in the database.
+     *
+     * @param ratingList the list of rating objects to be saved.
+     * @return the saved list of rating objects, or null if the input question is null
+     */
     public List<Rating> saveAllRatings(List<Rating> ratingList) {
         if (ratingList == null) return null;
         return ratingRepository.saveAllAndFlush(ratingList);

@@ -30,7 +30,7 @@ public class FindAuditService {
 
     /**
      * Finds an audit by its ID.
-     * 
+     *
      * @param id the ID of the audit
      * @return an optional object with the audit with the specified ID, or an optional with no audit if not found
      */
@@ -47,7 +47,7 @@ public class FindAuditService {
 
     /**
      * Finds all audits.
-     * 
+     *
      * @return a list of all audits
      */
     public List<Audit> findAllAudits() {
@@ -57,7 +57,7 @@ public class FindAuditService {
     /**
      * Finds all audits with the specified search string.
      *
-     * @param search the string to search for in the name or customer
+     * @param search        the string to search for in the name or customer
      * @param sortDirection the direction to sort the results
      * @return a list of all audits with the specified search string
      */

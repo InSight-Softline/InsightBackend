@@ -28,7 +28,7 @@ import com.insight.backend.service.question.FindQuestionService;
 
 @ExtendWith(MockitoExtension.class)
 public class DeleteQuestionServiceTest {
-    
+
     @Mock
     private QuestionRepository questionRepository;
 
@@ -75,6 +75,7 @@ public class DeleteQuestionServiceTest {
         });
         assertEquals("Question cannot be null", exception.getMessage());
     }
+
     @Test
     public void testDeleteQuestion_validInput() {
         Question question = new Question();
@@ -88,14 +89,13 @@ public class DeleteQuestionServiceTest {
         assertNotNull(question.getDeletedAt(), "DeletedAt should be set to a non-null value");
         verify(questionRepository, times(1)).saveAndFlush(question);
     }
-/** @Test
-    public void testDeleteQuestion_SaveAndFlushCalled() throws Exception {
-        when(findQuestionService.findQuestionByID(1L)).thenReturn(Optional.of(question));
-        mockMvc.perform(delete("/api/v1/questions/{questionID}", 1L))
-            .andExpect(status().isOk())
-            .andReturn();
-        verify(questionRepository, times(1)).saveAndFlush(question);
-    }
-*/
+/** @Test public void testDeleteQuestion_SaveAndFlushCalled() throws Exception {
+when(findQuestionService.findQuestionByID(1L)).thenReturn(Optional.of(question));
+mockMvc.perform(delete("/api/v1/questions/{questionID}", 1L))
+.andExpect(status().isOk())
+.andReturn();
+verify(questionRepository, times(1)).saveAndFlush(question);
+}
+ */
 
 }

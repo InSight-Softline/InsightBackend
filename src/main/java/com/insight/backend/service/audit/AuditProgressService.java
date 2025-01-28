@@ -64,7 +64,7 @@ public class AuditProgressService {
             if (rating.getNa() == null) {
                 continue;
             }
-            if(rating.getNa()){
+            if (rating.getNa()) {
                 answeredQuestionsPerCategory.merge(categoryId, 1, Integer::sum);
                 amountNaQuestions++;
                 naQuestionsPerCategory.merge(categoryId, 1, Integer::sum);

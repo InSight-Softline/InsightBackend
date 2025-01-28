@@ -22,14 +22,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-
 /**
  * AuditsController is a REST controller that handles HTTP requests related to audits.
  */
 @RestController
 public class AuditsController {
 
-    /** 
+    /**
      * The FindAuditService to use the service methods.
      */
     private final FindAuditService findAuditService;
@@ -51,7 +50,7 @@ public class AuditsController {
 
     /**
      * Constructs a new AuditsController with the specified FindAuditService.
-     * 
+     *
      * @param findAuditService the service to find audits
      */
     @Autowired
@@ -64,7 +63,7 @@ public class AuditsController {
 
     /**
      * GET requests for retrieving all audits.
-     * 
+     *
      * @return a ResponseEntity containing a list of Audit objects
      */
     @GetMapping("api/v1/audits")
@@ -116,7 +115,7 @@ public class AuditsController {
     /**
      * Handles DELETE requests for deleting an audit.
      *
-     * @param auditId    the ID of the audit to softdelete
+     * @param auditId the ID of the audit to softdelete
      * @return a ResponseEntity containing info about the delete operation in JSON format
      */
     @DeleteMapping("/api/v1/audits/{auditId}")

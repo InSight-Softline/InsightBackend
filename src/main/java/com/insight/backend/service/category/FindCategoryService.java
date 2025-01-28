@@ -18,13 +18,14 @@ public class FindCategoryService {
     public FindCategoryService(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
+
     /**
      * Finds a category based on the given id.
      *
      * @param id the id of category to be found.
      * @return an Optional object that includes the category if found, or empty if not found.
      */
-    public Optional <Category> findCategoryById(Long id) {
+    public Optional<Category> findCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
 

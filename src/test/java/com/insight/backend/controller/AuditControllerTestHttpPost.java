@@ -13,6 +13,7 @@ import com.insight.backend.exception.DuplicateCategoryIdException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -125,13 +126,13 @@ public class AuditControllerTestHttpPost {
         newAuditDTO.setCustomer("TestCustomer");
         newAuditDTO.setCategories(Arrays.asList(1L, 2L));
 
-    when(createAuditService.createAudit(any(NewAuditDTO.class))).thenThrow(new NonExistentAuditCategoryException(1L));
+        when(createAuditService.createAudit(any(NewAuditDTO.class))).thenThrow(new NonExistentAuditCategoryException(1L));
 
-    mockMvc.perform(post("/api/v1/audits/new")
-                    .content(objectMapper.writeValueAsString(newAuditDTO))
-                    .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest()); // Expecting status code 400
-}
+        mockMvc.perform(post("/api/v1/audits/new")
+                        .content(objectMapper.writeValueAsString(newAuditDTO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest()); // Expecting status code 400
+    }
 
 
     /**

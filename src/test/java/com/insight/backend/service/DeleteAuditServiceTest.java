@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class DeleteAuditServiceTest {
-    
+
     @Mock
     private AuditRepository auditRepository;
 
@@ -26,7 +26,7 @@ public class DeleteAuditServiceTest {
     private Audit nullAudit;
 
     /*
-    * Test data to create before execution of and be used in single test method
+     * Test data to create before execution of and be used in single test method
      */
     @BeforeEach
     public void setUp() {
@@ -38,9 +38,10 @@ public class DeleteAuditServiceTest {
 
     @Test
     public void softDeleteAuditTest() {
-        
-        deleteAuditService.softDeleteAudit(audit);;
-       
+
+        deleteAuditService.softDeleteAudit(audit);
+        ;
+
         verify(auditRepository, times(1)).saveAndFlush(audit);
 
         assertNotEquals(audit.getDeletedAt(), null);
@@ -48,9 +49,9 @@ public class DeleteAuditServiceTest {
 
     @Test
     public void softDeleteAuditNullTest() {
-        
+
         deleteAuditService.softDeleteAudit(nullAudit);
-       
+
         verify(auditRepository, times(0)).saveAndFlush(audit);
     }
 }

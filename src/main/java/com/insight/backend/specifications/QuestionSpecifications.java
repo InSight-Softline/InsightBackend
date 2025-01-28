@@ -6,7 +6,7 @@ import com.insight.backend.model.Question;
 import org.springframework.data.jpa.domain.Specification;
 
 public class QuestionSpecifications {
-    
+
     /**
      * Specification to find a Question by its Category.
      *
@@ -15,7 +15,7 @@ public class QuestionSpecifications {
      */
     public static Specification<Question> inCategory(Category category) {
         return (root, query, criteriaBuilder) -> criteriaBuilder
-            .equal(root.get("category"), category);
+                .equal(root.get("category"), category);
     }
 
     public static Specification<Question> hasName(String name) {
@@ -27,11 +27,12 @@ public class QuestionSpecifications {
      * root: Accesses fields of the "Question" entity.
      * query: Represents the criteria query (unused here).
      * criteriaBuilder: Builds the condition to check if "deletedAt" is null.
+     *
      * @return a Specification to find questions where deletedAt is null.
      */
     public static Specification<Question> isNotDeleted() {
         return (root, query, criteriaBuilder) -> criteriaBuilder
-            .isNull(root.get("deletedAt"));
+                .isNull(root.get("deletedAt"));
     }
 }
 

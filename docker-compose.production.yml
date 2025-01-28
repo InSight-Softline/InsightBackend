@@ -20,7 +20,7 @@ services:
       - CORS_URLS
     ports:
       - "8081:81"
-    entrypoint: ["java", "-jar","/app/insight-spring.jar"]
+    entrypoint: [ "java", "-jar","/app/insight-spring.jar" ]
     restart: unless-stopped
 
 volumes:

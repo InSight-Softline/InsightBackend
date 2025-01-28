@@ -19,7 +19,7 @@ public class WebConfig {
 
     /**
      * Configures CORS settings based on application properties.
-     * 
+     *
      * @return a WebMvcConfigurer instance with CORS settings.
      */
     @Bean
@@ -29,7 +29,7 @@ public class WebConfig {
             public void addCorsMappings(@NonNull CorsRegistry registry) {
                 // Retrieve the allowed origins from the application properties. If not set, default to "*".
                 String allowedOrigins = env.getProperty("cors.urls", "*");
-                
+
                 // Configure CORS settings
                 registry.addMapping("/**")
                         .allowedOrigins(allowedOrigins.split(","))
