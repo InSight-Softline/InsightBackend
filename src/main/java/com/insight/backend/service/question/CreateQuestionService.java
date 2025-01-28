@@ -2,8 +2,6 @@ package com.insight.backend.service.question;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import com.insight.backend.dto.NewQuestionDTO;
 import com.insight.backend.dto.QuestionResponseDTO;
 import com.insight.backend.exception.CategoryNotFoundException;
@@ -11,6 +9,8 @@ import com.insight.backend.exception.QuestionAlreadyExistsException;
 import com.insight.backend.model.Category;
 import com.insight.backend.model.Question;
 import com.insight.backend.service.category.FindCategoryService;
+
+import org.springframework.stereotype.Service;
 
 /**
  * Service class for creating questions.

@@ -1,12 +1,12 @@
 package com.insight.backend.specifications;
 
-import org.springframework.data.jpa.domain.Specification;
-
-import com.insight.backend.model.Category;
-
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+
+import com.insight.backend.model.Category;
+
+import org.springframework.data.jpa.domain.Specification;
 
 public class CategorySpecifications {
 

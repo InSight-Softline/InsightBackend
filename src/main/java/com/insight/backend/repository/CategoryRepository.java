@@ -1,9 +1,11 @@
 package com.insight.backend.repository;
+
 import java.util.Optional;
+
+import com.insight.backend.model.Category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import com.insight.backend.model.Category;
 
 /**
  * Repository interface for accessing Category data.

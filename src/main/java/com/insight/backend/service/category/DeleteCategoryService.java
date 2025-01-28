@@ -2,11 +2,11 @@ package com.insight.backend.service.category;
 
 import java.time.LocalDateTime;
 
-import org.springframework.stereotype.Service;
-
 import com.insight.backend.exception.CategoryAlreadyDeletedException;
 import com.insight.backend.model.Category;
 import com.insight.backend.repository.CategoryRepository;
+
+import org.springframework.stereotype.Service;
 
 /**
  * Service for handling category deletion with a soft delete approach.

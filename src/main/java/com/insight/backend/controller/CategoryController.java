@@ -2,15 +2,7 @@ package com.insight.backend.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.insight.backend.dto.CategoryResponseDTO;
 import com.insight.backend.dto.NewCategoryDTO;
@@ -21,7 +13,10 @@ import com.insight.backend.service.category.CreateCategoryService;
 import com.insight.backend.service.category.DeleteCategoryService;
 import com.insight.backend.service.category.FindCategoryService;
 
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * CategoryController is a REST controller that handles HTTP requests related to categories.
@@ -77,7 +72,7 @@ public class CategoryController {
      * DELETE /categories/{categoryID}
      * Soft deletes a category by its ID.
      *
-     * @param id the ID of the category to be deleted
+     * @param categoryID the ID of the category to be deleted
      * @return a ResponseEntity containing info about the delete operation in JSON format
      */
     @DeleteMapping("/categories/{categoryID}")

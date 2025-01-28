@@ -1,9 +1,9 @@
 package com.insight.backend.specifications;
 
-import org.springframework.data.jpa.domain.Specification;
-
 import com.insight.backend.model.Category;
 import com.insight.backend.model.Question;
+
+import org.springframework.data.jpa.domain.Specification;
 
 public class QuestionSpecifications {
     
