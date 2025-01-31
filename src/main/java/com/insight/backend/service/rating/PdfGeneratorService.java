@@ -1,23 +1,27 @@
 package com.insight.backend.service.rating;
 
+import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.insight.backend.exception.AuditNotFoundException;
 import com.insight.backend.exception.PdfGenerationException;
 import com.insight.backend.model.Audit;
 import com.insight.backend.model.Rating;
 import com.insight.backend.service.audit.FindAuditService;
-import com.lowagie.text.*;
 import com.lowagie.text.Font;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.*;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.awt.*;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -39,7 +43,6 @@ public class PdfGeneratorService {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
 
         try {
-            PdfWriter writer = PdfWriter.getInstance(document, out);
             document.open();
 
             // Add Header
