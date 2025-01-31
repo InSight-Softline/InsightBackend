@@ -76,7 +76,7 @@ public class CategoryController {
      * @param categoryID the ID of the category to be deleted
      * @return a ResponseEntity containing info about the delete operation in JSON format
      */
-    @DeleteMapping("/categories/{categoryID}")
+    @DeleteMapping("/api/v1/categories/{categoryID}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryID) {
         Category category = findCategoryService.findCategoryById(categoryID)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryID));
