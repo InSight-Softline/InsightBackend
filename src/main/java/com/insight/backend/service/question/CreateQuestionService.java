@@ -70,7 +70,7 @@ public class CreateQuestionService {
         QuestionResponseDTO responseDTO = new QuestionResponseDTO();
         responseDTO.setId(savedQuestion.getId());
         responseDTO.setName(savedQuestion.getName());
-responseDTO.setCategory(savedQuestion.getCategory());
+        responseDTO.setCategory(savedQuestion.getCategory());
 
         return responseDTO;
     }
